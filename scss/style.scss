@@ -1,0 +1,29 @@
+$black: #111;
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0; 
+    background-color: $black; 
+}
+
+#board {
+    display: grid;
+    width: (9 * 4rem);
+    height: (22 * 4rem);
+    margin: 0 auto;
+    /* 9 col */
+    grid-auto-columns: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
+    /* 22 row */
+    grid-auto-rows: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
+    background: #000;
+    // perspective: 2rem;
+}
+
+.board-tile {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid magenta;
+}
