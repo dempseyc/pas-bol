@@ -11,17 +11,18 @@ body {
     background-color: $black; 
 }
 
-// #board-container {
-// }
+#board-container {
+    perspective: 40rem;
+}
 
 #board {
+    position: relative;
     margin: 0 auto;
     /* 9 col */
     width: (9 * 4rem);
     /* 22 row */
     height: (22 * 4rem);
     background: #000;
-    perspective: 40rem;
     overflow: hidden;
 }
 

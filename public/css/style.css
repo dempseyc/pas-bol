@@ -5,14 +5,17 @@ body {
   margin: 0;
   background-color: #111; }
 
+#board-container {
+  perspective: 40rem; }
+
 #board {
+  position: relative;
   margin: 0 auto;
   /* 9 col */
   width: 36rem;
   /* 22 row */
   height: 88rem;
   background: #000;
-  perspective: 40rem;
   overflow: hidden; }
 
 .board-tile {
