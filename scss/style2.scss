@@ -1,5 +1,5 @@
 $black: #111;
-$cols: 11;
+$cols: 9;
 $rows: 22;
 
 html {
@@ -15,38 +15,28 @@ body {
 // }
 
 #board {
+    display: grid;
     margin: 0 auto;
     /* 9 col */
     width: (9 * 4rem);
+    grid-auto-columns: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
     /* 22 row */
     height: (22 * 4rem);
+    grid-auto-rows: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
     background: #000;
     perspective: 40rem;
-    overflow: hidden;
 }
 
 .board-tile {
-    display: inline-block;
-    position: absolute;
-    margin: 0;
-    padding: 0;
     width: 4rem;
     height: 4rem;
-    outline: 2px solid #F0F8;
+    border: 2px solid magenta;
 }
 
 $col-slug: "c";
 
 @for $i from 0 through 9 {
     .#{$col-slug}-#{$i} {
-        left: $i*4rem;
-    }
-}
-
-$row-slug: "r";
-
-@for $i from 0 through 22 {
-    .#{$row-slug}-#{$i} {
-        top: $i*4rem;
+        grid-column: $i+1;
     }
 }

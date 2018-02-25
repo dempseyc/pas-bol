@@ -5,8 +5,8 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "node-sass --include-path scss scss/style.scss   public/css/style.css",
-    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+    "build-css": "./bin/build-css",
+    "watch-css": "./bin/watch-css"
   },
   "author": "",
   "license": "ISC",

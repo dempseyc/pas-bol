@@ -1,22 +1,124 @@
 html {
-  font-size: 16px; }
+  font-size: 12px; }
 
 body {
   margin: 0;
   background-color: #111; }
 
 #board {
-  display: grid;
-  width: 36rem;
-  height: 88rem;
   margin: 0 auto;
   /* 9 col */
-  grid-auto-columns: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
+  width: 36rem;
   /* 22 row */
-  grid-auto-rows: 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem 4rem;
-  background: #000; }
+  height: 88rem;
+  background: #000;
+  perspective: 40rem;
+  overflow: hidden; }
 
 .board-tile {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid magenta; }
+  display: inline-block;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 4rem;
+  height: 4rem;
+  outline: 2px solid #F0F8; }
+
+.c-0 {
+  left: 0rem; }
+
+.c-1 {
+  left: 4rem; }
+
+.c-2 {
+  left: 8rem; }
+
+.c-3 {
+  left: 12rem; }
+
+.c-4 {
+  left: 16rem; }
+
+.c-5 {
+  left: 20rem; }
+
+.c-6 {
+  left: 24rem; }
+
+.c-7 {
+  left: 28rem; }
+
+.c-8 {
+  left: 32rem; }
+
+.c-9 {
+  left: 36rem; }
+
+.r-0 {
+  top: 0rem; }
+
+.r-1 {
+  top: 4rem; }
+
+.r-2 {
+  top: 8rem; }
+
+.r-3 {
+  top: 12rem; }
+
+.r-4 {
+  top: 16rem; }
+
+.r-5 {
+  top: 20rem; }
+
+.r-6 {
+  top: 24rem; }
+
+.r-7 {
+  top: 28rem; }
+
+.r-8 {
+  top: 32rem; }
+
+.r-9 {
+  top: 36rem; }
+
+.r-10 {
+  top: 40rem; }
+
+.r-11 {
+  top: 44rem; }
+
+.r-12 {
+  top: 48rem; }
+
+.r-13 {
+  top: 52rem; }
+
+.r-14 {
+  top: 56rem; }
+
+.r-15 {
+  top: 60rem; }
+
+.r-16 {
+  top: 64rem; }
+
+.r-17 {
+  top: 68rem; }
+
+.r-18 {
+  top: 72rem; }
+
+.r-19 {
+  top: 76rem; }
+
+.r-20 {
+  top: 80rem; }
+
+.r-21 {
+  top: 84rem; }
+
+.r-22 {
+  top: 88rem; }
