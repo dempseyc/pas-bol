@@ -3,7 +3,7 @@ $cols: 11;
 $rows: 22;
 
 html {
-    font-size: 12px;
+    font-size: 8px;
 }
 
 body {
@@ -12,18 +12,21 @@ body {
 }
 
 #board-container {
-    perspective: 40rem;
+    perspective: 30rem;
 }
 
 #board {
     position: relative;
+    top: -8rem;
     margin: 0 auto;
     /* 9 col */
     width: (9 * 4rem);
     /* 22 row */
-    height: (22 * 4rem);
+    height: (20 * 4rem);
     background: #000;
     overflow: hidden;
+
+    transform: rotateX(10deg);
 }
 
 .board-tile {
@@ -34,13 +37,14 @@ body {
     width: 4rem;
     height: 4rem;
     outline: 2px solid #F0F8;
+    transform: translateX(0) translateY(0);
 }
 
 $col-slug: "c";
 
-@for $i from 0 through 9 {
+@for $i from 0 through 11 {
     .#{$col-slug}-#{$i} {
-        left: $i*4rem;
+        left: ($i*4rem) - 4rem;
     }
 }
 
