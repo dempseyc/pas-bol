@@ -1,11 +1,13 @@
 let cols = 9;
 let rows = 22;
 let motion = "left";
+let prevMotion = "left";
 let rate = 0.1;
 let xIarr = [0,1,2,3,4,5,6,7,8];
 let yIarr = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
 let position = {x:xIarr[4],y:yIarr[10]};
 let targetPosition = {x:xIarr[4],y:yIarr[10]};
+let prevPosition = {x:4,y:10};
 let animPosition = {x:4,y:10};
 let cellOffset = {x:0,y:0};
 
@@ -23,65 +25,79 @@ for (let j = 0; j<rows; j++) {
 }
 
 let Offense1 = document.createElement('div');
-Offense1.classList = "offense1";
+Offense1.classList = "piece offense1";
 board.appendChild(Offense1);
 
 let tiles = board.querySelectorAll('.board-tile');
 
-function changeDirection(direction) {
-    // can have filters for orthoganal change during transition
-    // boos like 'can move along y' 'can move along x'
-    motion = direction;
-    changeTarget();
+// call changeTarget everytime changemotion is called and when animation finishes
+function changeMotion(direction) {
+    if (motion !== direction) {
+        console.log(direction);
+        prevMotion = motion;
+        motion = direction;
+        changeTarget();
+    }
 }
 
 function changeTarget() {
     // this was to fix changing direction in the middle of an animation
-    position.x = targetPosition.x;
-    position.y = targetPosition.y;
-    switch (motion) {
-        case "up":
-            targetPosition.y = position.y-1;
-            break;
-        case "down":
-            targetPosition.y = position.y+1;
-            break
-        case "left":
-            targetPosition.x = position.x+1;
-            break;
-        case "right":
-            targetPosition.x = position.x-1;
-        default:
-            break;
+    prevPosition.x = targetPosition.x;
+    prevPosition.y = targetPosition.y;
+    
+    // need to fix incrementing when direction is not changed
+    if (prevMotion !== motion) {
+        switch (motion) {
+            case "up":
+                targetPosition.y = prevPosition.y-1;
+                break;
+            case "down":
+                targetPosition.y = prevPosition.y+1;
+                break
+            case "left":
+                targetPosition.x = prevPosition.x+1;
+                break;
+            case "right":
+                targetPosition.x = prevPosition.x-1;
+            default:
+                break;
+        }
+        prevMotion = motion;
+        animate ();
+    } else {
+        // might need else switch case
+        console.log(targetPosition, "in ct");
+        // animate();
     }
-    animate();
 }
 
 function animate () {
-    let progress = Math.abs(targetPosition.x-animPosition.x + targetPosition.y-animPosition.y);
+    let incomplete = Math.abs(targetPosition.x-animPosition.x + targetPosition.y-animPosition.y);
     let offsetX = (targetPosition.x-position.x)*rate; // is a percentage useably
     let offsetY = (targetPosition.y-position.y)*rate; // is a percentage uesably
-    if(progress>0.00001) {
+    if(incomplete>0.00001) {
         cellOffset.x += Math.round(offsetX*10);
         cellOffset.y += Math.round(offsetY*10);
         animPosition.x = animPosition.x+offsetX;
         animPosition.y = animPosition.y+offsetY;
-        console.log(animPosition);
+        // console.log(animPosition);
         let delay = setTimeout(()=>{
-            moveCells();
+            changeCellOffset();
             animate();
             clearTimeout(delay);
         },10);
     } else {
+        console.log("in else of a"); // allowing you to change direction mid move?
         cellOffset.x = 0;
         cellOffset.y = 0;
-        position.x = targetPosition.x;
-        position.y = targetPosition.y;
+        // allow to continue motion // why does it speed up so much?
+        prevPosition.x = targetPosition.x;
+        prevPosition.y = targetPosition.y;
     }
 
 }
 
-function moveCells() {
+function changeCellOffset() {
     let x = cellOffset.x;
     let y = cellOffset.y;
     if (x===10||x/10===-10) { x = 0; }
@@ -96,19 +112,19 @@ document.addEventListener('keydown', function(event) {
 
       switch(event.which) {
           case 37: // left arrow
-            changeDirection("left");
+            changeMotion("left");
             break;
 
           case 38: // up arrow
-            changeDirection("down");
+            changeMotion("down");
             break;
 
           case 39: // right arrow
-            changeDirection("right");
+            changeMotion("right");
             break;
 
           case 40: // down arrow
-            changeDirection("up");
+            changeMotion("up");
             break;
 
           case 88:
