@@ -27,12 +27,13 @@ for (let j = 0; j<rows; j++) {
 
 let tiles = board.querySelectorAll('.board-tile');
 
-function changeMotion(direction) {
+function changeDirection(direction) {
     motion = direction;
     changeTarget();
 }
 
 function changeTarget() {
+    // this was to fix changing direction in the middle of an animation
     position.x = targetPosition.x;
     position.y = targetPosition.y;
     switch (motion) {
@@ -43,10 +44,10 @@ function changeTarget() {
             targetPosition.y = position.y+1;
             break
         case "left":
-            targetPosition.x = position.x-1;
+            targetPosition.x = position.x+1;
             break;
         case "right":
-            targetPosition.x = position.x+1;
+            targetPosition.x = position.x-1;
         default:
             break;
     }
@@ -54,7 +55,7 @@ function changeTarget() {
 }
 
 function animate () {
-    window.requestAnimationFrame(()=>{
+    // window.requestAnimationFrame(()=>{
         let progress = Math.abs(targetPosition.x-animPosition.x + targetPosition.y-animPosition.y);
         let offsetX = (targetPosition.x-position.x)*rate;
         let offsetY = (targetPosition.y-position.y)*rate;
@@ -68,15 +69,15 @@ function animate () {
                 moveCells();
                 animate();
                 clearTimeout(delay);
-            },25);
+            },10);
         } else {
-            console.log("reached else");
             cellOffset.x = 0;
             cellOffset.y = 0;
             position.x = targetPosition.x;
             position.y = targetPosition.y;
         }
-    })
+    // });
+
 }
 
 function moveCells() {
@@ -94,19 +95,19 @@ document.addEventListener('keydown', function(event) {
 
       switch(event.which) {
           case 37: // left arrow
-            changeMotion("left");
+            changeDirection("left");
             break;
 
           case 38: // up arrow
-            changeMotion("down");
+            changeDirection("down");
             break;
 
           case 39: // right arrow
-            changeMotion("right");
+            changeDirection("right");
             break;
 
           case 40: // down arrow
-            changeMotion("up");
+            changeDirection("up");
             break;
 
           case 88:
