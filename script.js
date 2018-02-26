@@ -9,12 +9,9 @@ let targetPosition = {x:xIarr[4],y:yIarr[10]};
 let animPosition = {x:4,y:10};
 let cellOffset = {x:0,y:0};
 
-function fixFloat(num) {
-    return num.toFixed(1);
-}
-
 // make board tiles
 let board = document.getElementById('board');
+
 
 for (let j = 0; j<rows; j++) {
     for (let i = 0; i<cols+2; i++) {
@@ -25,9 +22,15 @@ for (let j = 0; j<rows; j++) {
     }
 }
 
+let Offense1 = document.createElement('div');
+Offense1.classList = "offense1";
+board.appendChild(Offense1);
+
 let tiles = board.querySelectorAll('.board-tile');
 
 function changeDirection(direction) {
+    // can have filters for orthoganal change during transition
+    // boos like 'can move along y' 'can move along x'
     motion = direction;
     changeTarget();
 }
@@ -55,28 +58,26 @@ function changeTarget() {
 }
 
 function animate () {
-    // window.requestAnimationFrame(()=>{
-        let progress = Math.abs(targetPosition.x-animPosition.x + targetPosition.y-animPosition.y);
-        let offsetX = (targetPosition.x-position.x)*rate;
-        let offsetY = (targetPosition.y-position.y)*rate;
-        if(progress>0.00001) {
-            cellOffset.x += Math.round(offsetX*10);
-            cellOffset.y += Math.round(offsetY*10);
-            animPosition.x = animPosition.x+offsetX;
-            animPosition.y = animPosition.y+offsetY;
-            console.log(animPosition);
-            let delay = setTimeout(()=>{
-                moveCells();
-                animate();
-                clearTimeout(delay);
-            },10);
-        } else {
-            cellOffset.x = 0;
-            cellOffset.y = 0;
-            position.x = targetPosition.x;
-            position.y = targetPosition.y;
-        }
-    // });
+    let progress = Math.abs(targetPosition.x-animPosition.x + targetPosition.y-animPosition.y);
+    let offsetX = (targetPosition.x-position.x)*rate; // is a percentage useably
+    let offsetY = (targetPosition.y-position.y)*rate; // is a percentage uesably
+    if(progress>0.00001) {
+        cellOffset.x += Math.round(offsetX*10);
+        cellOffset.y += Math.round(offsetY*10);
+        animPosition.x = animPosition.x+offsetX;
+        animPosition.y = animPosition.y+offsetY;
+        console.log(animPosition);
+        let delay = setTimeout(()=>{
+            moveCells();
+            animate();
+            clearTimeout(delay);
+        },10);
+    } else {
+        cellOffset.x = 0;
+        cellOffset.y = 0;
+        position.x = targetPosition.x;
+        position.y = targetPosition.y;
+    }
 
 }
 
