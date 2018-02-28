@@ -1,3 +1,5 @@
+// script.js plus debounce stuff
+
 let cols = 9;
 let rows = 22;
 let motion = "still";
