@@ -3,7 +3,6 @@ class Player {
     constructor (team,role) {
         this.team = team;
         this.role = role;
-        this.prevMotion = "still";
         this.motionStack = []; // 0 being still initially
         this.pos = this.initPos(this.team);
         this.prevPos = {x:this.pos.x,y:this.pos.y};
@@ -104,7 +103,7 @@ class Player {
                 this.pos.y += offsetY;
                 this.goTowardTarget();
                 clearTimeout(delay);
-            },50);
+            },100);
         } else {
             console.log("else", this.pos);
             this.anim = false;
@@ -150,21 +149,20 @@ class Player {
             return orth;
         }
 
-        // three cases array empty 'init'
+        // if its orthogonal
+        if (this.motionStack.length>0 && isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
+            this.motionStack.push(direction);
+            console.log(1,this.motionStack);
+        }
+
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget(this.motionStack[0]);
-            console.log(1,this.motionStack[0]);
+            console.log(2,this.motionStack);
         }
-        // if its orthogonal
-        else if (this.motionStack.length>0 && isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
-            this.motionStack.push(direction);
-            console.log(2,this.motionStack[0]);
-        } 
         else {
             this.motionStack.push(direction);
-            this.changeTarget(this.motionStack.shift());
-            console.log(3,this.motionStack[0]);
+            console.log(3,this.motionStack);
         }
     }
 

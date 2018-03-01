@@ -31,28 +31,35 @@ board.appendChild(Offense0.DOMhandle);
 
 // END OF SETUP
 ///////////////////////////////////////////////////////////////////////////
-window.requestAnimationFrame(() => {
-    let qbPos = team0.roster[0].pos;
-    let cellOffset = {
-        x: Math.abs(qbPos.x-Math.round(qbPos.x))*10,
-        y: Math.abs(qbPos.y-Math.round(qbPos.y))*10
-    }
-    changeCellOffset(cellOffset.x,cellOffset.y);
-});
+function doCellAnimation() {
+    window.requestAnimationFrame(() => {
+        let qbPos = team0.roster[0].pos;
+        let cellOffset = {
+            // should be left or right, pos or neg 10, but the 
+            // qbPos fine pos is always positive
+            x: Math.round((qbPos.x-Math.floor(qbPos.x))*10),
+            y: Math.round((qbPos.y-Math.floor(qbPos.y))*10)
+        }
+        // console.log(cellOffset);
+        changeCellOffset(cellOffset.x,cellOffset.y);
+    });
+}
 
 function changeCellOffset(x,y) {
     if (x !== 0 && y !== 0){
         if (x>9||x<-9) { x = 0; }
         if (y>9||y<-9) { y = 0; }
+    } else {
+        tiles.forEach((tile)=>{
+            tile.style.transform = `translateX(${(-0.41*x)}rem) translateY(${(-0.41*y)}rem)`;
+        })
+        doCellAnimation()
     }
-    console.log("in cco", x, y);
-    tiles.forEach((tile)=>{
-        tile.style.transform = `translateX(${(0.41*x)}rem) translateY(${(0.41*y)}rem)`;
-    })
 }
 
 function off0Move(direction) {
     Offense0.addMotion(direction);
+    doCellAnimation();
 }
 
 document.addEventListener('keydown', function(event) {
