@@ -1,11 +1,10 @@
 let cols = 9;
 let rows = 22;
-let rate = 0.1;
-let cellOffset = {x:0,y:0};
-let anim = false;
 
-let Offense0 = team0.roster[0]; // array of 5
-console.log(team1.roster); // array of 5
+// build a bunch of players from team0.roster and team1.roster
+
+// for addMotion:   
+let Offense0 = team0.roster[0];
 
 // make board tiles
 let board = document.getElementById('board');
@@ -22,9 +21,9 @@ for (let j = 0; j<rows; j++) {
 let tiles = board.querySelectorAll('.board-tile');
 
 //// might want to give pieces a zindex based on -yposition;
-// let Offense1 = document.createElement('div');
-// Offense1.classList = "piece offense1";
-// board.appendChild(Offense1);
+Offense0.DOMhandle = document.createElement('div');
+Offense0.DOMhandle.classList = "piece offense1";
+board.appendChild(Offense0.DOMhandle);
 
 // all the cell animation stuff should be based on player team0,role0
 // updates to centerplayer should pass into script2
@@ -32,82 +31,16 @@ let tiles = board.querySelectorAll('.board-tile');
 
 // END OF SETUP
 ///////////////////////////////////////////////////////////////////////////
-
-function changeMotion(direction) {
-    motion = direction;
-}
-
-function changeTarget() {
-    
-    if (prevMotion !== motion) {
-        prevTarget.y = targetPos.y;
-        prevTarget.x = targetPos.x;
-
-        switch (motion) {
-            case "up":
-            targetPos.y = prevTarget.y-1;
-            break;
-            case "down":
-            targetPos.y = prevTarget.y+1;
-            break
-            case "left":
-            targetPos.x = prevTarget.x-1;
-            break;
-            case "right":
-            targetPos.x = prevTarget.x+1;
-            default:
-            break;
-        }
-        prevMotion = motion;
+window.requestAnimationFrame(() => {
+    let qbPos = team0.roster[0].pos;
+    let cellOffset = {
+        x: Math.abs(qbPos.x-Math.round(qbPos.x))*10,
+        y: Math.abs(qbPos.y-Math.round(qbPos.y))*10
     }
-    if (anim === false) { startAnim(); }
-}
+    changeCellOffset(cellOffset.x,cellOffset.y);
+});
 
-function startAnim() {
-    anim = true;
-    animate();
-}
-
-function checkProgress(x,y) {
-    // x and y will start at 1 and decrease to 0
-    return Math.abs(x+y);
-}
-
-function animate () {
-    // offset describes something strictly for animation
-    let offsetX = (targetPos.x-prevTarget.x)*rate; // just a +/- unit
-    let offsetY = (targetPos.y-prevTarget.y)*rate; // just a +/- unit
-
-    let progress = checkProgress(targetPos.x-animPos.x,targetPos.y-animPos.y);
-    // console.log("progress", progress);
-    cellOffset.x += Math.round(offsetX*10);
-    cellOffset.y += Math.round(offsetY*10);
-
-    if(progress>0.000001) {
-        let delay = setTimeout(()=>{
-            animPos.x += offsetX;
-            animPos.y += offsetY;
-            changeCellOffset();
-            animate();
-            clearTimeout(delay);
-        },50);
-    } else {
-        console.log("else in a");
-        anim = false;
-        cellOffset.x = 0;
-        cellOffset.y = 0;
-        pos.x = targetPos.x;
-        pos.y = targetPos.y;
-        prevTarget.x = targetPos.x;
-        prevTarget.y = targetPos.y;
-        prevMotion = "still";
-        changeTarget();
-    }
-}
-
-function changeCellOffset() {
-    let x = cellOffset.x;
-    let y = cellOffset.y;
+function changeCellOffset(x,y) {
     if (x !== 0 && y !== 0){
         if (x>9||x<-9) { x = 0; }
         if (y>9||y<-9) { y = 0; }
@@ -118,27 +51,27 @@ function changeCellOffset() {
     })
 }
 
+function off0Move(direction) {
+    Offense0.addMotion(direction);
+}
+
 document.addEventListener('keydown', function(event) {
 
       switch(event.which) {
           case 37: // left arrow
-            changeMotion("right");
-            changeTarget();
+            off0Move("left");
             break;
 
           case 38: // up arrow
-            changeMotion("down");
-            changeTarget();
+            off0Move("up");
             break;
 
           case 39: // right arrow
-            changeMotion("left");
-            changeTarget();
+            off0Move("right");
             break;
 
           case 40: // down arrow
-            changeMotion("up");
-            changeTarget();
+            off0Move("down");
             break;
 
           case 88:
