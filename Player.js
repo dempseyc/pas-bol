@@ -58,9 +58,11 @@ class Player {
         }
     }
     
-    changeTarget(direction) {
+    changeTarget() {
 
-        switch (direction) {
+        let currDirection = this.motionStack[0];
+
+        switch (currDirection) {
             case "up":
             this.targetPos.y = this.targetPos.y-1;
             break;
@@ -94,7 +96,12 @@ class Player {
         //  then refer to motionStack
         let offsetX = (this.targetPos.x-this.prevPos.x)*this.rate;
         let offsetY = (this.targetPos.y-this.prevPos.y)*this.rate;
-        
+
+
+        ///////////////////
+        ///////////////////
+        ///////////////////
+        // think about the way progress is resolved...  hmm?
         let progress = this.checkProgress(this.targetPos.x-this.pos.x,this.targetPos.y-this.pos.y);
     
         if(progress>0.000001) {
@@ -103,20 +110,20 @@ class Player {
                 this.pos.y += offsetY;
                 this.goTowardTarget();
                 clearTimeout(delay);
-            },100);
+            },10);
         } else {
             console.log("else", this.pos);
             this.anim = false;
-            this.pos.x = this.targetPos.x;
-            this.pos.y = this.targetPos.y;
             this.prevPos.x = this.pos.x;
             this.prevPos.y = this.pos.y;
+            this.pos.x = this.targetPos.x;
+            this.pos.y = this.targetPos.y;
             if (this.motionStack.length>1) {
                 this.changeTarget(this.motionStack.shift());
             }
             //////////////////unitary motion
             else if (this.motionStack.length>0) {
-                this.motionStack = [];
+                this.motionStack.shift();
             }
             //////////////////continuous motion
             // else {
@@ -128,7 +135,29 @@ class Player {
     // the point here is to call addMotion on players and let them sort their own shit out
     // haven't even gotten into hit detection, but anyway..  i think Player.js is looking nice
     addMotion (direction) {
-        let isOrthogonal = function(prevMotion,currMotion) {
+
+        function isBack(prevMotion,currMotion) {
+            let b = false;
+            switch (prevMotion) {
+                case "left":
+                    if(currMotion === "right") { b = true; }
+                    break;
+                case "right":
+                    if(currMotion === "left") { b = true; }
+                    break;
+                case "up":
+                    if(currMotion === "down") { b = true; }
+                    break;
+                case "down":
+                    if(currMotion === "up") { b = true; }
+                    break;
+                default:
+                    break;
+            }
+            return b;
+        }
+
+        function isOrthogonal (prevMotion,currMotion) {
             let orth = false;
             switch (prevMotion) {
                 case "left":
@@ -149,21 +178,27 @@ class Player {
             return orth;
         }
 
-        // if its orthogonal
-        if (this.motionStack.length>0 && isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
+        if (this.motionStack.length>0) {
+            if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
+                this.motionStack.push(direction);
+                console.log("orth",this.motionStack);
+            }
+            else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
+                this.motionStack.pop();
+                console.log("back",this.motionStack);
+            }
+            else if (this.motionStack[this.motionStack.length-1] === direction) {
+                this.motionStack.push(direction);
+                console.log("same",this.motionStack);
+            }
+        } else {
+            // length is 0
             this.motionStack.push(direction);
-            console.log(1,this.motionStack);
+            this.changeTarget();
+            console.log("init",this.motionStack);
         }
 
-        if (this.motionStack.length === 0) {
-            this.motionStack.push(direction);
-            this.changeTarget(this.motionStack[0]);
-            console.log(2,this.motionStack);
-        }
-        else {
-            this.motionStack.push(direction);
-            console.log(3,this.motionStack);
-        }
+
     }
 
 }

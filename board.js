@@ -5,6 +5,7 @@ let rows = 22;
 
 // for addMotion:   
 let Offense0 = team0.roster[0];
+let qbPos = team0.roster[0].pos;
 
 // make board tiles
 let board = document.getElementById('board');
@@ -32,8 +33,8 @@ board.appendChild(Offense0.DOMhandle);
 // END OF SETUP
 ///////////////////////////////////////////////////////////////////////////
 function doCellAnimation() {
-    window.requestAnimationFrame(() => {
-        let qbPos = team0.roster[0].pos;
+    qbPos = team0.roster[0].pos;
+    let delay = setTimeout(()=>{
         let cellOffset = {
             // should be left or right, pos or neg 10, but the 
             // qbPos fine pos is always positive
@@ -42,19 +43,20 @@ function doCellAnimation() {
         }
         // console.log(cellOffset);
         changeCellOffset(cellOffset.x,cellOffset.y);
-    });
+        clearTimeout(delay);
+    },10);
 }
 
 function changeCellOffset(x,y) {
-    if (x !== 0 && y !== 0){
-        if (x>9||x<-9) { x = 0; }
-        if (y>9||y<-9) { y = 0; }
-    } else {
+    // if (x !== 0 && y !== 0){
+    //     if (x>9||x<-9) { x = 0; }
+    //     if (y>9||y<-9) { y = 0; }
+    // } else {
         tiles.forEach((tile)=>{
             tile.style.transform = `translateX(${(-0.41*x)}rem) translateY(${(-0.41*y)}rem)`;
         })
         doCellAnimation()
-    }
+    // }
 }
 
 function off0Move(direction) {
