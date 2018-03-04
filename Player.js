@@ -3,13 +3,12 @@ class Player {
     constructor (team,role) {
         this.team = team;
         this.role = role;
-        this.motionStack = []; // 0 being still initially
+        this.motionStack = [];
         this.pos = this.initPos(this.team);
-        this.prevPos = {x:this.pos.x,y:this.pos.y};
+        this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
-        this.animPos = {x:this.pos.x,y:this.pos.y};
-        this.anim = false;
-        this.rate = 0.1;
+        this.speed = 0.1;
+        this.moving = false;
     }
 
     initPos(ZEROorONE) {
@@ -57,83 +56,62 @@ class Player {
             }
         }
     }
-    
+
     changeTarget() {
 
         let currDirection = this.motionStack[0];
 
+        // if (this.motionStack.length>1) {
+        //     currDirection = this.motionStack.shift();
+        // }
+
         switch (currDirection) {
             case "up":
-            this.targetPos.y = this.targetPos.y-1;
+            this.targetPos.y = this.prevTarget.y-1;
             break;
             case "down":
-            this.targetPos.y = this.targetPos.y+1;
+            this.targetPos.y = this.prevTarget.y+1;
             break
             case "left":
-            this.targetPos.x = this.targetPos.x-1;
+            this.targetPos.x = this.prevTarget.x-1;
             break;
             case "right":
-            this.targetPos.x = this.targetPos.x+1;
+            this.targetPos.x = this.prevTarget.x+1;
             default:
             break;
         }
     
-        if (this.anim === false) { this.startAnim(); }
     }
-    
-    startAnim() {
-        this.anim = true;
-        this.goTowardTarget();
-    }
-    
-    checkProgress(x,y) {
-        // x and y will start at 1 and decrease to 0
-        return Math.abs(x)+Math.abs(y);
-    }
-    
-    goTowardTarget () {
-        // all anim should do is slowly change pos to target pos,
-        //  then refer to motionStack
-        let offsetX = (this.targetPos.x-this.prevPos.x)*this.rate;
-        let offsetY = (this.targetPos.y-this.prevPos.y)*this.rate;
 
+    nudge (delta) {
 
-        ///////////////////
-        ///////////////////
-        ///////////////////
-        // think about the way progress is resolved...  hmm?
-        let progress = this.checkProgress(this.targetPos.x-this.pos.x,this.targetPos.y-this.pos.y);
-    
-        if(progress>0.000001) {
-            let delay = setTimeout(()=>{
-                this.pos.x += offsetX;
-                this.pos.y += offsetY;
-                this.goTowardTarget();
-                clearTimeout(delay);
-            },10);
+        if (this.targetPos.x===this.pos.x&&this.targetPos.y===this.pos.y) {
+            this.moving = false;
         } else {
-            console.log("else", this.pos);
-            this.anim = false;
-            this.prevPos.x = this.pos.x;
-            this.prevPos.y = this.pos.y;
-            this.pos.x = this.targetPos.x;
-            this.pos.y = this.targetPos.y;
-            if (this.motionStack.length>1) {
-                this.changeTarget(this.motionStack.shift());
-            }
-            //////////////////unitary motion
-            else if (this.motionStack.length>0) {
+            this.moving = true;
+
+            let X = this.targetPos.x-this.prevTarget.x;
+            let Y = this.targetPos.y-this.prevTarget.y;
+    
+            this.pos.x += (X * this.speed * delta / 100);
+            this.pos.y += (Y * this.speed * delta / 100); 
+    
+            let distanceFromTargetX = Math.abs(this.targetPos.x - this.pos.x);
+            let distanceFromTargetY = Math.abs(this.targetPos.y - this.pos.y);
+            
+            let distance = distanceFromTargetX + distanceFromTargetY;
+
+            if (distance < 0.0001) {
                 this.motionStack.shift();
+                this.prevTarget.x = this.targetPos.x;
+                this.prevTarget.y = this.targetPos.y;
+                this.pos.x = this.targetPos.x;
+                this.pos.y = this.targetPos.y;
+                this.changeTarget();
             }
-            //////////////////continuous motion
-            // else {
-            //     changeTarget(this.motionStack[0]);
-            // }
         }
     }
 
-    // the point here is to call addMotion on players and let them sort their own shit out
-    // haven't even gotten into hit detection, but anyway..  i think Player.js is looking nice
     addMotion (direction) {
 
         function isBack(prevMotion,currMotion) {
@@ -157,7 +135,7 @@ class Player {
             return b;
         }
 
-        function isOrthogonal (prevMotion,currMotion) {
+        function isOrthogonal(prevMotion,currMotion) {
             let orth = false;
             switch (prevMotion) {
                 case "left":
@@ -185,6 +163,10 @@ class Player {
             }
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
                 this.motionStack.pop();
+                this.motionStack.push(direction);
+                this.prevTarget.x = this.targetPos.x;
+                this.prevTarget.y = this.targetPos.y;
+                this.changeTarget();
                 console.log("back",this.motionStack);
             }
             else if (this.motionStack[this.motionStack.length-1] === direction) {
@@ -195,10 +177,10 @@ class Player {
             // length is 0
             this.motionStack.push(direction);
             this.changeTarget();
+            this.moving = true;
             console.log("init",this.motionStack);
         }
 
-
-    }
+    }  // addMotion method
 
 }
