@@ -38,11 +38,10 @@ var board = {
 
     },
 
+    // game calls board update and qb move and offsetcells
+
     update: function(delta) {
         this.qb.nudge(delta);
-        this.offsetCells();
-        // this.ReadOut.innerHTML = `${this.qb.pos.x} ${this.qb.pos.y}`;
-        this.ReadOut.innerHTML = `${delta}`;
     },
 
     qbMove: function (direction) {
@@ -50,22 +49,20 @@ var board = {
     },
     
     offsetCells: function() {
-        let X = Math.round((Math.floor(this.qb.pos.x)-this.qb.pos.x)*10);
-        let Y = Math.round((Math.floor(this.qb.pos.y)-this.qb.pos.y)*10);
 
-        // if (X>10) { X = 0; }
-        // if (Y>10) { Y = 0; }
+        // will be a positve or negative integer?
+        let X = Math.round((this.qb.pos.x-Math.floor(this.qb.pos.x))*10);
+        let Y = Math.round((this.qb.pos.y-Math.floor(this.qb.pos.y))*10);
 
-        if (X!==0) {
-            this.DOMtiles.forEach((tile)=>{
-                tile.style.transform = `translateX(${(0.4*X)}rem)`;
-            });
-        }
-        if (Y!==0) {
-            this.DOMtiles.forEach((tile)=>{
-                tile.style.transform = `translateY(${(0.4*Y)}rem)`;
-            });
-        }
+        if (X<1) { X = 0; }
+        if (Y<1) { Y = 0; }
+
+        console.log(X,Y);
+
+        this.DOMtiles.forEach((tile)=>{
+            tile.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
+            console.log("transform");
+        });
     
     }
 }

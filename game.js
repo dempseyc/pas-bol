@@ -23,7 +23,7 @@ document.addEventListener('keydown', function(event) {
 
         case 88:
         case 191:
-        slideBoardCells("pass");
+        NotDefinedYet("pass");
         break;
 
         default: return;
@@ -69,7 +69,7 @@ function mainLoop(timestamp) {
             break;
         }
     }
-    
+
     draw();
     requestAnimationFrame(mainLoop);
 }
