@@ -173,8 +173,13 @@ class Player {
                 console.log("back",this.motionStack);
             }
             else if (this.motionStack[this.motionStack.length-1] === direction) {
-                this.motionStack.push(direction);
-                console.log("same",this.motionStack);
+                // should differentiate between behavior of npcs and avatar
+                if (this.team !== 0 && this.role !==0) {
+                    this.motionStack.push(direction);
+                    console.log(this.team, this.role, this.motionStack);
+                } else {
+                    console.log("same",this.motionStack);
+                }
             }
         } else {
             // length is 0

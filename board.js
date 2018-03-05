@@ -63,15 +63,10 @@ var board = {
         if (X<1) { X = 0; }
         if (Y<1) { Y = 0; }
 
-        console.log(X,Y);
-
-        // this.DOMtile.forEach((tile)=>{
-        //     tile.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
-        //     console.log("transform");
-        // });
+        // console.log(X,Y);
 
         this.DOMtileContainer.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
-            console.log("transform");
+        // console.log("transform");
     
     }
 }
