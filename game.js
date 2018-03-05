@@ -34,10 +34,10 @@ document.addEventListener('keydown', function(event) {
 }); //document keydown listener
 
 var lastFrameTimeMs = 0,
-    maxFPS = 50,
+    maxFPS = 100,
     delta = 0,
     lastFrameTimeMs = 0,
-    timestep = 1000 / 50;
+    timestep = 1000 / 100;
 
 function draw() {
     board.offsetCells();

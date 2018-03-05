@@ -7,7 +7,7 @@ class Player {
         this.pos = this.initPos(this.team);
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
-        this.speed = 0.1;
+        this.speed = .25;
         this.moving = false;
     }
 
@@ -164,9 +164,12 @@ class Player {
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
                 this.motionStack.pop();
                 this.motionStack.push(direction);
+
+                // problematic
                 this.prevTarget.x = this.targetPos.x;
                 this.prevTarget.y = this.targetPos.y;
                 this.changeTarget();
+
                 console.log("back",this.motionStack);
             }
             else if (this.motionStack[this.motionStack.length-1] === direction) {

@@ -29,6 +29,9 @@ body {
     transform: rotateX(10deg);
 }
 
+.tile-container {
+}
+
 .board-tile {
     display: inline-block;
     position: absolute;
@@ -39,17 +42,40 @@ body {
     background: url('../images/pas-tile.gif');
 }
 
+$yellow: #FF0A;
+$yGreen: #DF0A;
+$yOrange: #FC0A;
+$green: #AF0A;
+$orange: #FA0A;
+
+
+$o-player-colors: $yellow,$yGreen,$yOrange,$green,$orange ;
+
+// $player-slug: 'player';
+// @for $i from 0 through 4 {
+//     .#{$player-slug}-#{$i} {
+
+//     }
+// }
+
+
+.player-container {
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    left: 16rem;
+    top: 60rem;
+}
+
 .player {
     width: 3rem;
     height: 3rem;
-    background: #FF0A;
+    margin: auto;
     border-radius: 50%;
 }
 
 .offense0 {
-    position: absolute;
-    left: 16.5rem;
-    top: 52em;
+    background: nth($o-player-colors, 1);
 }
 
 $col-slug: "c";

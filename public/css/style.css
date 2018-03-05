@@ -29,16 +29,21 @@ body {
   height: 4rem;
   background: url("../images/pas-tile.gif"); }
 
+.player-container {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  left: 16rem;
+  top: 60rem; }
+
 .player {
   width: 3rem;
   height: 3rem;
-  background: #FF0A;
+  margin: auto;
   border-radius: 50%; }
 
 .offense0 {
-  position: absolute;
-  left: 16.5rem;
-  top: 52em; }
+  background: #FF0A; }
 
 .c-0 {
   left: -4rem; }

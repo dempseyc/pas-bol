@@ -18,20 +18,26 @@ var board = {
     },
 
     init: function(config) {
+        let tileContainer = document.createElement('div');
+        tileContainer.classList.add('tile-container');
         for (let j = 0; j<config.rows; j++) {
             for (let i = 0; i<config.cols+2; i++) {
                 let classes = ["board-tile", `c-${i}`, `r-${j}`];
                 let tile = document.createElement('div');
                 tile.classList.add(...classes);
-                this.DOMhandle.appendChild(tile);
+                tileContainer.appendChild(tile);
             }
         }
-
-        this.DOMtiles = this.DOMhandle.querySelectorAll('.board-tile');
+        
+        this.DOMhandle.appendChild(tileContainer);
+        this.DOMtileContainer = this.DOMhandle.querySelectorAll('.tile-container')[0];
 
         // extracting dom handling from player class, maybe unwisely, but probably just for qb Player
         this.qb.DOMhandle = document.createElement('div');
-        this.qb.DOMhandle.classList = "player offense0";
+        this.qb.DOMhandle.classList = "player-container";
+        this.qb.Dot = document.createElement('div');
+        this.qb.Dot.classList = "player offense0";
+        this.qb.DOMhandle.appendChild(this.qb.Dot);
         this.DOMhandle.appendChild(this.qb.DOMhandle);
 
         this.ReadOut.innerHTML = "ready";
@@ -59,10 +65,13 @@ var board = {
 
         console.log(X,Y);
 
-        this.DOMtiles.forEach((tile)=>{
-            tile.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
+        // this.DOMtile.forEach((tile)=>{
+        //     tile.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
+        //     console.log("transform");
+        // });
+
+        this.DOMtileContainer.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
             console.log("transform");
-        });
     
     }
 }
