@@ -1,7 +1,5 @@
-// board consumed by game
 // animations in board, players, and ball, all called by update with timesteps in game
-// draw to control dom..  animation handled in game with update dom manipulation in board and players
-
+// draw to control dom..  animation handled in game with update dom manipulation in board and players  
 document.addEventListener('keydown', function(event) {
 
     switch(event.which) {
@@ -48,13 +46,16 @@ function panic() {
     console.log("panic");
 }
 
+function update() {
+    board.update(timestep);
+}
+
 function mainLoop(timestamp) {
     // throttle the frame rate  
     if (timestamp < lastFrameTimeMs + (1000 / maxFPS)) {
         requestAnimationFrame(mainLoop);
         return;
     }
-
     
     // create virtual time
     delta += timestamp - lastFrameTimeMs;
@@ -62,7 +63,7 @@ function mainLoop(timestamp) {
 
     var numUpdateSteps = 0;
     while (delta >= timestep) {
-        board.update(timestep);
+        update();
         delta -= timestep;
         if (++numUpdateSteps >= 240) {
             panic();

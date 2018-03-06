@@ -1,4 +1,4 @@
-class Player {
+class PlayerA {
 
     constructor (team,role) {
         this.team = team;
@@ -128,13 +128,19 @@ class Player {
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
                 this.motionStack.push(direction);
                 // it doesnt make sense to do anything else unless the length is large
                 console.log("orth",this.motionStack);
             }
             
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
-                
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
+
                 this.prevTarget.x = this.targetPos.x;
                 this.prevTarget.y = this.targetPos.y;
 
@@ -146,6 +152,9 @@ class Player {
             }
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
                 this.motionStack.push(direction);
                 console.log("same",this.motionStack);
             }
@@ -195,4 +204,4 @@ class Player {
 
     } // end addMotion
     
-}  // end class Player
+}  // end class PlayerA

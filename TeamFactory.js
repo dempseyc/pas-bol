@@ -10,8 +10,14 @@ class TeamFactory {
         }
     }
     buildTeam (team) {
-        return this.roles.map((role)=>{
-            let player = new Player(team,role);
+        return this.roles.map((role,i)=>{
+            let player = {};
+            if (i === 0) {
+                // player = new PlayerA(team,role);
+                player = new PlayerA(team,role);
+            } else {
+                player = new Player(team,role);
+            }
             this.roster.push(player);
         })
     }

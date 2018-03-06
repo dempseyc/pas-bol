@@ -5,11 +5,6 @@ var board = {
     DOMhandle: document.getElementById('board'),
     ReadOut: document.getElementById('readout'),
 
-    // maybe not necessary, but healthy
-    // contains DOMhandlers for tiles
-    // DOMtiles: [],
-
-    // this just creates a reference
     qb: team0.roster[0],
 
     config: {
