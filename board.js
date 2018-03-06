@@ -5,7 +5,10 @@ var board = {
     DOMhandle: document.getElementById('board'),
     ReadOut: document.getElementById('readout'),
 
-    qb: team0.roster[0],
+    // teamA if you are player1
+    Avtr: teamA.roster[0],
+
+    NPCs: [teamA.roster[1],teamA.roster[2],teamA.roster[3],teamA.roster[4]],
 
     config: {
         cols: 9,
@@ -13,6 +16,7 @@ var board = {
     },
 
     init: function(config) {
+        // build the tiles and tile container
         let tileContainer = document.createElement('div');
         tileContainer.classList.add('tile-container');
         for (let j = 0; j<config.rows; j++) {
@@ -23,37 +27,53 @@ var board = {
                 tileContainer.appendChild(tile);
             }
         }
-        
         this.DOMhandle.appendChild(tileContainer);
         this.DOMtileContainer = this.DOMhandle.querySelectorAll('.tile-container')[0];
 
-        // extracting dom handling from player class, maybe unwisely, but probably just for qb Player
-        this.qb.DOMhandle = document.createElement('div');
-        this.qb.DOMhandle.classList = "player-container";
-        this.qb.Dot = document.createElement('div');
-        this.qb.Dot.classList = "player teamA0";
-        this.qb.DOMhandle.appendChild(this.qb.Dot);
-        this.DOMhandle.appendChild(this.qb.DOMhandle);
+        // build the avatar DOMelement registered in board as this.Avtr
+        this.Avtr.DOMhandle = document.createElement('div');
+        this.Avtr.DOMhandle.classList = "player-container";
+        this.Avtr.DOMhandle.style.left = `${(this.Avtr.pos.x*4)}rem`;
+        this.Avtr.DOMhandle.style.top = `${(this.Avtr.pos.y*4)}rem`;
+        this.Avtr.Dot = document.createElement('div');
+        this.Avtr.Dot.classList = "player teamA0";
+        this.Avtr.DOMhandle.appendChild(this.Avtr.Dot);
+        this.DOMhandle.appendChild(this.Avtr.DOMhandle);
+
+        // build the npc DOMelements
+        // from 1 to 4
+        for (i=1; i<5; i++) {
+            console.log("building npc");
+            let npc = this.NPCs[i-1];
+            npc.DOMhandle = document.createElement('div');
+            npc.DOMhandle.classList = "player-container";
+            npc.DOMhandle.style.left = `${(npc.pos.x*4)}rem`;
+            npc.DOMhandle.style.top = `${(npc.pos.y*4)}rem`;
+            npc.Dot = document.createElement('div');
+            npc.Dot.classList = `player teamA${i}`;
+            npc.DOMhandle.appendChild(npc.Dot);
+            this.DOMhandle.appendChild(npc.DOMhandle);
+        }
 
         this.ReadOut.innerHTML = "ready";
 
     },
 
-    // game calls board update and qb move and offsetcells
+    // game calls board update and Avtr move and offsetcells
 
     update: function(delta) {
-        this.qb.nudge(delta);
+        this.Avtr.nudge(delta);
     },
 
-    qbMove: function (direction) {
-        this.qb.addMotion(direction);
+    avtrMove: function (direction) {
+        this.Avtr.addMotion(direction);
     },
     
     offsetCells: function() {
 
         // will be a positve or negative integer?
-        let X = Math.round((this.qb.pos.x-Math.floor(this.qb.pos.x))*10);
-        let Y = Math.round((this.qb.pos.y-Math.floor(this.qb.pos.y))*10);
+        let X = Math.round((this.Avtr.pos.x-Math.floor(this.Avtr.pos.x))*10);
+        let Y = Math.round((this.Avtr.pos.y-Math.floor(this.Avtr.pos.y))*10);
 
         if (X<1) { X = 0; }
         if (Y<1) { Y = 0; }

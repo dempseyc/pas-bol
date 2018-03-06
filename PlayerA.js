@@ -58,7 +58,7 @@ class PlayerA {
 
     // this is a nice function
     changeTarget() {
-        console.log("ct");
+        // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
         this.prevTarget.y = this.targetPos.y;
 
@@ -115,7 +115,7 @@ class PlayerA {
     // good behavior for avatar
     addMotion (direction) {
         // should differentiate between behavior of npcs and avatar
-        console.log("am");
+        // console.log("am");
 
         // length is 0
         if (this.motionStack.length === 0) {

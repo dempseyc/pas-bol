@@ -32,9 +32,7 @@ body {
 .player-container {
   position: absolute;
   width: 4rem;
-  height: 4rem;
-  left: 16rem;
-  top: 60rem; }
+  height: 4rem; }
 
 .player {
   width: 3rem;

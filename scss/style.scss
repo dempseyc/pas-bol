@@ -55,8 +55,8 @@ $a-player-colors: $yellow,$yGreen,$yOrange,$green,$orange ;
     position: absolute;
     width: 4rem;
     height: 4rem;
-    left: 16rem;
-    top: 60rem;
+    // left: 16rem;
+    // top: 60rem;
 }
 
 .player {
@@ -73,7 +73,6 @@ $teamA-slug: "teamA";
         background: nth($a-player-colors, ($i+1));
     }
 }
-
 
 $col-slug: "c";
 

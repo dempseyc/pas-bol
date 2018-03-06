@@ -4,19 +4,19 @@ document.addEventListener('keydown', function(event) {
 
     switch(event.which) {
         case 37: // left arrow
-        board.qbMove("left");
+        board.avtrMove("left");
         break;
 
         case 38: // up arrow
-        board.qbMove("up");
+        board.avtrMove("up");
         break;
 
         case 39: // right arrow
-        board.qbMove("right");
+        board.avtrMove("right");
         break;
 
         case 40: // down arrow
-        board.qbMove("down");
+        board.avtrMove("down");
         break;
 
         case 88:
