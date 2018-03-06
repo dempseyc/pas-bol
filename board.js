@@ -31,7 +31,7 @@ var board = {
         this.qb.DOMhandle = document.createElement('div');
         this.qb.DOMhandle.classList = "player-container";
         this.qb.Dot = document.createElement('div');
-        this.qb.Dot.classList = "player offense0";
+        this.qb.Dot.classList = "player teamA0";
         this.qb.DOMhandle.appendChild(this.qb.Dot);
         this.DOMhandle.appendChild(this.qb.DOMhandle);
 

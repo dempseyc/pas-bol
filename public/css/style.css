@@ -42,8 +42,20 @@ body {
   margin: auto;
   border-radius: 50%; }
 
-.offense0 {
+.teamA0 {
   background: #FF0A; }
+
+.teamA1 {
+  background: #DF0A; }
+
+.teamA2 {
+  background: #FC0A; }
+
+.teamA3 {
+  background: #AF0A; }
+
+.teamA4 {
+  background: #FA0A; }
 
 .c-0 {
   left: -4rem; }

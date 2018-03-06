@@ -16,7 +16,7 @@ class TeamFactory {
                 // player = new PlayerA(team,role);
                 player = new PlayerA(team,role);
             } else {
-                player = new Player(team,role);
+                player = new NPC(team,role);
             }
             this.roster.push(player);
         })

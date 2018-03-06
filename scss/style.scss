@@ -49,15 +49,7 @@ $green: #AF0A;
 $orange: #FA0A;
 
 
-$o-player-colors: $yellow,$yGreen,$yOrange,$green,$orange ;
-
-// $player-slug: 'player';
-// @for $i from 0 through 4 {
-//     .#{$player-slug}-#{$i} {
-
-//     }
-// }
-
+$a-player-colors: $yellow,$yGreen,$yOrange,$green,$orange ;
 
 .player-container {
     position: absolute;
@@ -74,9 +66,14 @@ $o-player-colors: $yellow,$yGreen,$yOrange,$green,$orange ;
     border-radius: 50%;
 }
 
-.offense0 {
-    background: nth($o-player-colors, 1);
+$teamA-slug: "teamA";
+
+@for $i from 0 through 4 {
+    .#{$teamA-slug}#{$i} {
+        background: nth($a-player-colors, ($i+1));
+    }
 }
+
 
 $col-slug: "c";
 
