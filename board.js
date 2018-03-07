@@ -34,11 +34,11 @@ var board = {
 
         // build the avatar DOMelement registered in board as this.Avtr
         this.Avtr.DOMhandle = document.createElement('div');
-        this.Avtr.DOMhandle.classList = "player-container";
+        this.Avtr.DOMhandle.classList = "player-containerA";
         this.Avtr.DOMhandle.style.left = `${(this.Avtr.pos.x*4)}rem`;
         this.Avtr.DOMhandle.style.top = `${(this.Avtr.pos.y*4)}rem`;
         this.Avtr.Dot = document.createElement('div');
-        this.Avtr.Dot.classList = "player teamA0";
+        this.Avtr.Dot.classList = "playerA teamA0";
         this.Avtr.DOMhandle.appendChild(this.Avtr.Dot);
         this.DOMhandle.appendChild(this.Avtr.DOMhandle);
 
@@ -54,7 +54,14 @@ var board = {
             npc.Dot = document.createElement('div');
             npc.Dot.classList = `player teamA${i}`;
             npc.DOMhandle.appendChild(npc.Dot);
-            this.DOMhandle.appendChild(npc.DOMhandle);
+            // dopplegangers
+            npc.DopL = document.createElement('div');
+            npc.DopR = document.createElement('div');
+            npc.DopL.classList = `dop-left teamA${i}`;
+            npc.DopR.classList = `dop-right teamA${i}`;
+            npc.DOMhandle.appendChild(npc.DopL);
+            npc.DOMhandle.appendChild(npc.DopR);
+            this.DOMhandle.appendChild(npc.DOMhandle);            
         }
 
         // build the npc DOMelements for teamB
@@ -68,6 +75,13 @@ var board = {
             npc.Dot = document.createElement('div');
             npc.Dot.classList = `player teamB${i}`;
             npc.DOMhandle.appendChild(npc.Dot);
+            // dopplegangers
+            npc.DopL = document.createElement('div');
+            npc.DopR = document.createElement('div');
+            npc.DopL.classList = `dop-left teamB${i}`;
+            npc.DopR.classList = `dop-right teamB${i}`;
+            npc.DOMhandle.appendChild(npc.DopL);
+            npc.DOMhandle.appendChild(npc.DopR);
             this.DOMhandle.appendChild(npc.DOMhandle);
         }
 

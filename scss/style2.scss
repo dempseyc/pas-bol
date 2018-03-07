@@ -53,19 +53,62 @@ $myOrange: #ffaa00;
 
 $a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
 
-.player-container {
+.player-containerA {
     position: absolute;
+    display: grid;
+    grid-auto-columns: 1fr;
     width: 4rem;
     height: 4rem;
+    margin: 0 auto;
 }
 
-.player {
+.player-container {
+    position: absolute;
+    display: grid;
+    grid-auto-columns: 4rem 32rem 4rem 32rem 4rem;
+    width: 4rem;
+    height: 4rem;
+    transform: translateX(-36rem);
+}
+
+.playerA {
+    position: absolute;
+    grid-column: 1/2;
+    justify-self: center;
     width: 3rem;
     height: 3rem;
-    margin: auto;
     border-radius: 50%;
     opacity: 0.9;
 }
+
+.player {
+    position: absolute;
+    grid-column: 3/4;
+    justify-self: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    opacity: 0.9;
+}
+
+.dop-left {
+    grid-column: 1/2;
+    justify-self: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    opacity: 0.9;
+}
+
+.dop-right {
+    grid-column: 5/6;
+    justify-self: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    opacity: 0.9;
+}
+
 
 $teamA-slug: "teamA";
 
@@ -73,6 +116,7 @@ $teamA-slug: "teamA";
     .#{$teamA-slug}#{$i} {
         background-color: nth($a-player-colors, ($i+1));
         border-bottom: 4px solid red;
+        mix-blend-mode: screen;
     }
 }
 
@@ -83,7 +127,7 @@ $myPRed: #ff44aa;
 $myBlue: #8822ff;
 $myRed: #ff4466;
 
-$b-player-colors: $myPurple,$myPBlue,$myPRed,$myBlue,$myRed ;
+$b-player-colors: $myPurple,$myPRed,$myPBlue,$myRed,$myBlue ;
 
 $teamB-slug: "teamB";
 
@@ -91,6 +135,7 @@ $teamB-slug: "teamB";
     .#{$teamB-slug}#{$i} {
         background-color: nth($b-player-colors, ($i+1));
         border-bottom: 4px solid white;
+        mix-blend-mode: screen;
     }
 }
 

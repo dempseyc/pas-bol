@@ -33,57 +33,105 @@ body {
   height: 4rem;
   background: url("../images/pas-tile.gif"); }
 
+.player-containerA {
+  position: absolute;
+  display: grid;
+  grid-auto-columns: 1fr;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto; }
+
 .player-container {
   position: absolute;
+  display: grid;
+  grid-auto-columns: 4rem 32rem 4rem 32rem 4rem;
   width: 4rem;
-  height: 4rem; }
+  height: 4rem;
+  transform: translateX(-36rem); }
 
-.player {
+.playerA {
+  position: absolute;
+  grid-column: 1/2;
+  justify-self: center;
   width: 3rem;
   height: 3rem;
-  margin: auto;
+  border-radius: 50%;
+  opacity: 0.9; }
+
+.player {
+  position: absolute;
+  grid-column: 3/4;
+  justify-self: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  opacity: 0.9; }
+
+.dop-left {
+  grid-column: 1/2;
+  justify-self: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  opacity: 0.9; }
+
+.dop-right {
+  grid-column: 5/6;
+  justify-self: center;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   opacity: 0.9; }
 
 .teamA0 {
   background-color: #ffff00;
-  border-bottom: 4px solid red; }
+  border-bottom: 4px solid red;
+  mix-blend-mode: screen; }
 
 .teamA1 {
   background-color: #ddff00;
-  border-bottom: 4px solid red; }
+  border-bottom: 4px solid red;
+  mix-blend-mode: screen; }
 
 .teamA2 {
   background-color: #ffcc00;
-  border-bottom: 4px solid red; }
+  border-bottom: 4px solid red;
+  mix-blend-mode: screen; }
 
 .teamA3 {
   background-color: #aaff00;
-  border-bottom: 4px solid red; }
+  border-bottom: 4px solid red;
+  mix-blend-mode: screen; }
 
 .teamA4 {
   background-color: #ffaa00;
-  border-bottom: 4px solid red; }
+  border-bottom: 4px solid red;
+  mix-blend-mode: screen; }
 
 .teamB0 {
   background-color: #ff00ff;
-  border-bottom: 4px solid white; }
+  border-bottom: 4px solid white;
+  mix-blend-mode: screen; }
 
 .teamB1 {
-  background-color: #cc22ff;
-  border-bottom: 4px solid white; }
+  background-color: #ff44aa;
+  border-bottom: 4px solid white;
+  mix-blend-mode: screen; }
 
 .teamB2 {
-  background-color: #ff44aa;
-  border-bottom: 4px solid white; }
+  background-color: #cc22ff;
+  border-bottom: 4px solid white;
+  mix-blend-mode: screen; }
 
 .teamB3 {
-  background-color: #8822ff;
-  border-bottom: 4px solid white; }
+  background-color: #ff4466;
+  border-bottom: 4px solid white;
+  mix-blend-mode: screen; }
 
 .teamB4 {
-  background-color: #ff4466;
-  border-bottom: 4px solid white; }
+  background-color: #8822ff;
+  border-bottom: 4px solid white;
+  mix-blend-mode: screen; }
 
 .c-0 {
   left: -4rem; }

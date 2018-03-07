@@ -7,7 +7,7 @@ class PlayerA {
         this.pos = this.initPos(this.team);
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
-        this.speed = .25;
+        this.speed = .5;
     }
 
     initPos(ZEROorONE) {
@@ -115,7 +115,7 @@ class PlayerA {
     // good behavior for avatar
     addMotion (direction) {
         // should differentiate between behavior of npcs and avatar
-        // console.log("am");
+        // console.log("am");   
 
         // length is 0
         if (this.motionStack.length === 0) {

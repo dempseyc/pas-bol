@@ -56,13 +56,6 @@ class Player {
         }
     }
 
-    // initRelPos (avtrX,avtrY) {
-    //     return {x: this.pos.x, y: this.pos.y}
-    // }
-    // resetRelPos (avtrX,avtrY) {
-    //     this.relPos.x 
-    // }
-
     // this is a nice function
     changeTarget () {
         console.log("ct");
