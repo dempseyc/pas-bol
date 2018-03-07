@@ -1,22 +1,16 @@
-$black: #111F;
+$myBlack: #111111;
 $cols: 11;
 $rows: 22;
 
 html {
     font-size: 8px;
+    background-color: #000;
 }
 
 body {
-    margin: 0; 
-    background-color: $black; 
+    margin: 0;
+    background-color: $myBlack;
 }
-
-$yellow: #FF0A;
-$yGreen: #DF0A;
-$yOrange: #FC0A;
-$green: #AF0A;
-$orange: #FA0A;
-
 
 #board-container {
     perspective: 30rem;
@@ -30,7 +24,7 @@ $orange: #FA0A;
     width: (9 * 4rem);
     /* 22 row */
     height: (20 * 4rem);
-    background: #000;
+    background: "#000A";
     overflow: hidden;
 
     transform: rotateX(10deg);
@@ -50,8 +44,14 @@ $orange: #FA0A;
     background: url('../images/pas-tile.gif');
 }
 
-$a-player-colors: $yellow,$yGreen,$yOrange,$green,$orange;
-$b-player-colors: $purple,$pBlue,$pRed,$blue,$red;
+// sass has no problem with these
+$myYellow: #ffff00;
+$myYGreen: #ddff00;
+$myYOrange: #ffcc00;
+$myGreen: #aaff00;
+$myOrange: #ffaa00;
+
+$a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
 
 .player-container {
     position: absolute;
@@ -64,21 +64,33 @@ $b-player-colors: $purple,$pBlue,$pRed,$blue,$red;
     height: 3rem;
     margin: auto;
     border-radius: 50%;
+    opacity: 0.9;
 }
 
 $teamA-slug: "teamA";
 
-@for $i from 1 through 4 {
+@for $i from 0 through 4 {
     .#{$teamA-slug}#{$i} {
-        background: nth($a-player-colors, ($i+1));
+        background-color: nth($a-player-colors, ($i+1));
+        border-bottom: 4px solid red;
     }
 }
+
+$myPurple: #ff00ff;
+// what is wrong with line 79????  sass can't build it.
+$myPBlue: #cc22ff;
+$myPRed: #ff44aa;
+$myBlue: #8822ff;
+$myRed: #ff4466;
+
+$b-player-colors: $myPurple,$myPBlue,$myPRed,$myBlue,$myRed ;
 
 $teamB-slug: "teamB";
 
 @for $i from 0 through 4 {
     .#{$teamB-slug}#{$i} {
-        background: nth($b-player-colors, ($i));
+        background-color: nth($b-player-colors, ($i+1));
+        border-bottom: 4px solid white;
     }
 }
 

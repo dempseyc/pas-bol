@@ -10,6 +10,8 @@ var board = {
 
     NPCs: [teamA.roster[1],teamA.roster[2],teamA.roster[3],teamA.roster[4]],
 
+    OtherTeam: teamB.roster,
+
     config: {
         cols: 9,
         rows: 22,
@@ -40,10 +42,10 @@ var board = {
         this.Avtr.DOMhandle.appendChild(this.Avtr.Dot);
         this.DOMhandle.appendChild(this.Avtr.DOMhandle);
 
-        // build the npc DOMelements
+        // build the npc DOMelements for teamA
         // from 1 to 4
         for (i=1; i<5; i++) {
-            console.log("building npc");
+            console.log("building npcA");
             let npc = this.NPCs[i-1];
             npc.DOMhandle = document.createElement('div');
             npc.DOMhandle.classList = "player-container";
@@ -51,6 +53,20 @@ var board = {
             npc.DOMhandle.style.top = `${(npc.pos.y*4)}rem`;
             npc.Dot = document.createElement('div');
             npc.Dot.classList = `player teamA${i}`;
+            npc.DOMhandle.appendChild(npc.Dot);
+            this.DOMhandle.appendChild(npc.DOMhandle);
+        }
+
+        // build the npc DOMelements for teamB
+        for (i=0; i<5; i++) {
+            console.log("building npcB");
+            let npc = this.OtherTeam[i];
+            npc.DOMhandle = document.createElement('div');
+            npc.DOMhandle.classList = "player-container";
+            npc.DOMhandle.style.left = `${(npc.pos.x*4)}rem`;
+            npc.DOMhandle.style.top = `${(npc.pos.y*4)}rem`;
+            npc.Dot = document.createElement('div');
+            npc.Dot.classList = `player teamB${i}`;
             npc.DOMhandle.appendChild(npc.Dot);
             this.DOMhandle.appendChild(npc.DOMhandle);
         }
