@@ -99,6 +99,21 @@ var board = {
         this.DOMtileContainer.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
         // console.log("transform");
     
+    },
+
+    offsetPlayers: function () {
+        this.NPCs.forEach((npc)=>{
+            let relX = npc.pos.x - this.Avtr.pos.x + 4;
+            let relY = npc.pos.y - this.Avtr.pos.y + 12;
+            npc.DOMhandle.style.left = `${(relX*4)}rem`;
+            npc.DOMhandle.style.top = `${(relY*4)}rem`;
+        });
+        this.OtherTeam.forEach((npc)=>{
+            let relX = npc.pos.x - this.Avtr.pos.x + 4;
+            let relY = npc.pos.y - this.Avtr.pos.y + 12;
+            npc.DOMhandle.style.left = `${(relX*4)}rem`;
+            npc.DOMhandle.style.top = `${(relY*4)}rem`;
+        });
     }
 }
 

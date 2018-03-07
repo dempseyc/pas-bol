@@ -39,6 +39,7 @@ var lastFrameTimeMs = 0,
 
 function draw() {
     board.offsetCells();
+    board.offsetPlayers();
 }
 
 function panic() {
