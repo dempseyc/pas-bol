@@ -147,9 +147,7 @@ class Player {
         }
     }
 
-    // good behavior for avatar
     addMotion (direction) {
-        // should differentiate between behavior of npcs and avatar
         console.log("am");
 
         // length is 0

@@ -188,6 +188,7 @@ class PlayerA {
                     this.motionStack.shift();
                 }
                 this.motionStack.push(direction);
+                console.log("same",this.motionStack);
             }
         }
 

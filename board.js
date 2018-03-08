@@ -100,10 +100,6 @@ var board = {
         });
     },
 
-    updateNeededData: function () {
-
-    },
-
     // game calls, board update, Avtr move ,offsetcells, offsetplayers, dohitdetection
 
     update: function(delta) {
