@@ -48,7 +48,8 @@ function panic() {
 }
 
 function update() {
-    board.update(timestep);
+    board.update(timestep); // delta in board.update
+    board.doHitDetection();
 }
 
 function mainLoop(timestamp) {

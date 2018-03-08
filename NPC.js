@@ -1,7 +1,9 @@
 class NPC extends Player {
 
     NPCMethod () {
-        console.log("NPC method exists");
+        let delay = setTimeout(() => {
+            console.log("NPC method exists");
+        }, 2000);
     }
 
 }

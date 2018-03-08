@@ -12,7 +12,7 @@ class TeamFactory {
     buildTeam (team) {
         return this.roles.map((role,i)=>{
             let player = {};
-            if (i === 0) {
+            if (team === 0 && i === 0) {
                 // player = new PlayerA(team,role);
                 player = new PlayerA(team,role);
             } else {

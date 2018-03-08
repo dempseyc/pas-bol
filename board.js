@@ -89,7 +89,7 @@ var board = {
 
     },
 
-    // game calls board update and Avtr move and offsetcells
+    // game calls board update and Avtr move and offsetcells and offsetplayers
 
     update: function(delta) {
         this.Avtr.nudge(delta);
@@ -116,19 +116,41 @@ var board = {
     },
 
     offsetPlayers: function () {
-        this.NPCs.forEach((npc)=>{
+        this.NPCs.forEach((npc) => {
             let relX = npc.pos.x - this.Avtr.pos.x + 4;
             let relY = npc.pos.y - this.Avtr.pos.y + 12;
             npc.DOMhandle.style.left = `${(relX*4)}rem`;
             npc.DOMhandle.style.top = `${(relY*4)}rem`;
         });
-        this.OtherTeam.forEach((npc)=>{
+        this.OtherTeam.forEach((npc) => {
             let relX = npc.pos.x - this.Avtr.pos.x + 4;
             let relY = npc.pos.y - this.Avtr.pos.y + 12;
             npc.DOMhandle.style.left = `${(relX*4)}rem`;
             npc.DOMhandle.style.top = `${(relY*4)}rem`;
+        });
+    },
+
+    doHitDetection: function () {
+        this.OtherTeam.forEach((npc) => {
+            if (Math.abs(this.Avtr.pos.x - npc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - npc.pos.y) < 0.8) {
+                this.Avtr.hitDetected();
+                npc.hitDetected();
+            }
+        });
+        this.OtherTeam.forEach((Bnpc) => {
+            this.NPCs.forEach((Anpc) => {
+                if (Math.abs(this.Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Anpc.pos.y - Bnpc.pos.y) < 0.8) {
+                    this.Anpc.hitDetected();
+                    Bnpc.hitDetected();
+                }
+            })
+            if (Math.abs(this.Avtr.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Bnpc.pos.y) < 0.8) {
+                this.Avtr.hitDetected();
+                Bnpc.hitDetected();
+            }
         });
     }
+
 }
 
 board.init(board.config);

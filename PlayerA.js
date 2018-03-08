@@ -7,6 +7,7 @@ class PlayerA {
         this.pos = this.initPos(this.team);
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
+        this.limits = {l: -0.5, r: 8.5},
         this.speed = .5;
     }
 
@@ -82,13 +83,45 @@ class PlayerA {
     
     } // end changeTarget
 
+    reTranslate (limit) {
+        switch (limit) {
+            case "left":
+                this.pos.x += 9;
+                this.targetPos.x += 9;
+                this.prevTarget.x += 9;
+                break;
+            case "right":
+                this.pos.x -= 9;
+                this.targetPos.x -= 9;
+                this.prevTarget.x -= 9;
+                break;
+            default:
+                break;
+        }
+    }
+
+    hitDetected () {
+        let continueX = this.targetPos.x;
+        let continueY = this.targetPos.y;
+
+        this.targetPos.x = this.prevTarget.x;
+        this.targetPos.y = this.prevTarget.y;
+
+        this.prevTarget.x = continueX;
+        this.prevTarget.y = continueY;
+    }
 
     nudge (delta) {
 
-        if (this.targetPos.x===this.pos.x&&this.targetPos.y===this.pos.y) {
-            this.moving = false;
-        } else {
-            this.moving = true;
+        if (this.pos.x < this.limits.l) {
+            this.reTranslate("left");
+        }
+        if (this.pos.x > this.limits.r) {
+            this.reTranslate("right");
+        }
+
+        if (this.targetPos.x !== this.pos.x || this.targetPos.y !== this.pos.y) {
+
 
             let X = this.targetPos.x-this.prevTarget.x;
             let Y = this.targetPos.y-this.prevTarget.y;
@@ -121,7 +154,6 @@ class PlayerA {
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget();
-            this.moving = true;
             console.log("init",this.motionStack);
         }
         
@@ -156,7 +188,6 @@ class PlayerA {
                     this.motionStack.shift();
                 }
                 this.motionStack.push(direction);
-                console.log("same",this.motionStack);
             }
         }
 
