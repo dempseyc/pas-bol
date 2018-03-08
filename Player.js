@@ -7,7 +7,8 @@ class Player {
         this.pos = this.initPos(this.team);
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
-        this.speed = .25;
+        this.limits = {l: -0.5, r: 8.5},
+        this.speed = .4;
     }
 
     initPos(ZEROorONE) {
@@ -58,7 +59,7 @@ class Player {
 
     // this is a nice function
     changeTarget () {
-        console.log("ct");
+        // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
         this.prevTarget.y = this.targetPos.y;
 

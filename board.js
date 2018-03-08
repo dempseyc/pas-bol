@@ -8,9 +8,11 @@ var board = {
     // teamA if you are player1
     Avtr: teamA.roster[0],
 
-    NPCs: [teamA.roster[1],teamA.roster[2],teamA.roster[3],teamA.roster[4]],
+    teamANPCs: [teamA.roster[1],teamA.roster[2],teamA.roster[3],teamA.roster[4]],
+    teamANeededData: {},
 
     OtherTeam: teamB.roster,
+    TeamBNeededData: {},
 
     config: {
         cols: 9,
@@ -46,7 +48,7 @@ var board = {
         // from 1 to 4
         for (i=1; i<5; i++) {
             console.log("building npcA");
-            let npc = this.NPCs[i-1];
+            let npc = this.teamANPCs[i-1];
             npc.DOMhandle = document.createElement('div');
             npc.DOMhandle.classList = "player-container";
             npc.DOMhandle.style.left = `${(npc.pos.x*4)}rem`;
@@ -85,18 +87,42 @@ var board = {
             this.DOMhandle.appendChild(npc.DOMhandle);
         }
 
+        this.updateNeededData();
+
         this.ReadOut.innerHTML = "ready";
 
     },
 
-    // game calls board update and Avtr move and offsetcells and offsetplayers
+    updateNeededData: function () {
+        this.teamANeededData.AvtrPos = this.Avtr.pos;
+        this.teamANeededData.BteamData = this.OtherTeam.map((role) => {
+            return {x: role.pos.x, y: role.pos.y};
+        });
+    },
+
+    updateNeededData: function () {
+
+    },
+
+    // game calls, board update, Avtr move ,offsetcells, offsetplayers, dohitdetection
 
     update: function(delta) {
         this.Avtr.nudge(delta);
+        this.teamANPCs.forEach((Anpc) => {
+            Anpc.nudge(delta);
+        });
     },
 
     avtrMove: function (direction) {
         this.Avtr.addMotion(direction);
+        this.updateNeededData();
+        this.teamANPCsMove();
+    },
+
+    teamANPCsMove: function () {
+        this.teamANPCs.forEach((Anpc) => {
+            Anpc.adapt(this.teamANeededData);
+        });
     },
     
     offsetCells: function() {
@@ -116,7 +142,7 @@ var board = {
     },
 
     offsetPlayers: function () {
-        this.NPCs.forEach((npc) => {
+        this.teamANPCs.forEach((npc) => {
             let relX = npc.pos.x - this.Avtr.pos.x + 4;
             let relY = npc.pos.y - this.Avtr.pos.y + 12;
             npc.DOMhandle.style.left = `${(relX*4)}rem`;
@@ -131,19 +157,15 @@ var board = {
     },
 
     doHitDetection: function () {
-        this.OtherTeam.forEach((npc) => {
-            if (Math.abs(this.Avtr.pos.x - npc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - npc.pos.y) < 0.8) {
-                this.Avtr.hitDetected();
-                npc.hitDetected();
-            }
-        });
+
         this.OtherTeam.forEach((Bnpc) => {
-            this.NPCs.forEach((Anpc) => {
-                if (Math.abs(this.Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Anpc.pos.y - Bnpc.pos.y) < 0.8) {
+            this.teamANPCs.forEach((Anpc) => {
+                if (Math.abs(Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(Anpc.pos.y - Bnpc.pos.y) < 0.8) {
                     this.Anpc.hitDetected();
                     Bnpc.hitDetected();
                 }
-            })
+            });
+
             if (Math.abs(this.Avtr.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Bnpc.pos.y) < 0.8) {
                 this.Avtr.hitDetected();
                 Bnpc.hitDetected();
