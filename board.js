@@ -94,9 +94,9 @@ var board = {
     },
 
     updateNeededData: function () {
-        this.teamANeededData.AvtrPos = this.Avtr.pos;
+        this.teamANeededData.AvtrTrgt = this.Avtr.targetPos;
         this.teamANeededData.BteamData = this.OtherTeam.map((role) => {
-            return {x: role.pos.x, y: role.pos.y};
+            return {x: role.targetPos.x, y: role.targetPos.y};
         });
     },
 
@@ -117,7 +117,8 @@ var board = {
 
     teamANPCsMove: function () {
         this.teamANPCs.forEach((Anpc) => {
-            Anpc.adapt(this.teamANeededData);
+            Anpc.setVector(this.teamANeededData);
+            Anpc.applyVector();
         });
     },
     
@@ -157,7 +158,7 @@ var board = {
         this.OtherTeam.forEach((Bnpc) => {
             this.teamANPCs.forEach((Anpc) => {
                 if (Math.abs(Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(Anpc.pos.y - Bnpc.pos.y) < 0.8) {
-                    this.Anpc.hitDetected();
+                    Anpc.hitDetected();
                     Bnpc.hitDetected();
                 }
             });

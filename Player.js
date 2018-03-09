@@ -8,7 +8,7 @@ class Player {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = .4;
+        this.speed = .5;
     }
 
     initPos(ZEROorONE) {
@@ -58,7 +58,7 @@ class Player {
     }
 
     // this is a nice function
-    changeTarget () {
+    changeTarget() {
         // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
         this.prevTarget.y = this.targetPos.y;
@@ -120,10 +120,7 @@ class Player {
             this.reTranslate("right");
         }
 
-        if (this.targetPos.x===this.pos.x&&this.targetPos.y===this.pos.y) {
-            this.moving = false;
-        } else {
-            this.moving = true;
+        if (this.targetPos.x !== this.pos.x || this.targetPos.y !== this.pos.y) {
 
             let X = this.targetPos.x-this.prevTarget.x;
             let Y = this.targetPos.y-this.prevTarget.y;
@@ -136,38 +133,48 @@ class Player {
             
             let distance = distanceFromTargetX + distanceFromTargetY;
 
-            if (distance < 0.0001) {
+            if (distance < 0.0000001) {
                 this.motionStack.shift();
                 this.prevTarget.x = this.targetPos.x;
                 this.prevTarget.y = this.targetPos.y;
                 this.pos.x = this.targetPos.x;
                 this.pos.y = this.targetPos.y;
-                this.changeTarget();
+                // this.changeTarget();
             }
         }
     }
 
     addMotion (direction) {
-        console.log("am");
+
+        if (direction === "stop") {
+            this.prevTarget.x = this.targetPos.x;
+            this.prevTarget.y = this.targetPos.y;
+            this.motionStack = [];
+            return;
+        }
 
         // length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget();
-            this.moving = true;
-            console.log("init",this.motionStack);
+            // console.log("init",this.motionStack);
         }
         
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
                 this.motionStack.push(direction);
-                // it doesnt make sense to do anything else unless the length is large
                 console.log("orth",this.motionStack);
             }
             
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
-                
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
+
                 this.prevTarget.x = this.targetPos.x;
                 this.prevTarget.y = this.targetPos.y;
 
@@ -179,6 +186,9 @@ class Player {
             }
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
+                if (this.motionStack.length > 1) {
+                    this.motionStack.shift();
+                }
                 this.motionStack.push(direction);
                 console.log("same",this.motionStack);
             }
@@ -228,4 +238,4 @@ class Player {
 
     } // end addMotion
     
-}  // end class Player
+}  // end class PlayerA

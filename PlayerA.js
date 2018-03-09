@@ -122,7 +122,6 @@ class PlayerA {
 
         if (this.targetPos.x !== this.pos.x || this.targetPos.y !== this.pos.y) {
 
-
             let X = this.targetPos.x-this.prevTarget.x;
             let Y = this.targetPos.y-this.prevTarget.y;
     
@@ -145,16 +144,13 @@ class PlayerA {
         }
     }
 
-    // good behavior for avatar
     addMotion (direction) {
-        // should differentiate between behavior of npcs and avatar
-        // console.log("am");   
 
         // length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget();
-            console.log("init",this.motionStack);
+            // console.log("init",this.motionStack);
         }
         
         else {
@@ -164,7 +160,6 @@ class PlayerA {
                     this.motionStack.shift();
                 }
                 this.motionStack.push(direction);
-                // it doesnt make sense to do anything else unless the length is large
                 console.log("orth",this.motionStack);
             }
             
