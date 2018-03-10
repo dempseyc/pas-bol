@@ -8,7 +8,7 @@ class PlayerA {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = .2;
+        this.speed = .5;
     }
 
     initPos(ZEROorONE) {
@@ -57,7 +57,6 @@ class PlayerA {
         }
     }
 
-    // this is a nice function
     changeTarget(direction) {
         // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
@@ -109,8 +108,18 @@ class PlayerA {
         this.prevTarget.y = continueY;
     }
 
-    // this is the dream version of addmotion
-    // it only changes the fine pos of the player
+    checkDistance () {
+        let xdistance = this.targetPos.x - this.pos.x;
+        let ydistance = this.targetPos.y - this.pos.y;
+        let distance = Math.abs(xdistance + ydistance);
+        if (distance < 0.0001) {
+            this.motionStack.shift();
+            this.pos.x = Math.round(this.pos.x);
+            this.pos.y = Math.round(this.pos.y);
+            this.changeTarget(this.motionStack[0]);
+        }
+    }
+
     nudge (delta) {
 
         if (this.pos.x < this.limits.l) {
@@ -128,20 +137,16 @@ class PlayerA {
             this.pos.x += X * this.speed * delta / 100;
             this.pos.y += Y * this.speed * delta / 100;
         }
-        // another function should evaluate when the distance
-        // between it and its target reaches 0ish
-        // and what to do about it
+
+        this.checkDistance();
     }
 
-    // this is the dream version of addmotion
-    // it only changes the motionstack
-    // interactivity with the avatar will depend on it, but might need some pops and shifts
-    // lets see
     addMotion (direction) {
 
         // length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
+            this.changeTarget(this.motionStack[0]);
             console.log("init",this.motionStack);
         }
         
@@ -155,12 +160,17 @@ class PlayerA {
             }
             
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
-
-                this.motionStack.shift();
-                this.motionStack.push(direction);
+                let continueX = this.targetPos.x;
+                let continueY = this.targetPos.y;
                 
                 this.targetPos.x = this.prevTarget.x;
                 this.targetPos.y = this.prevTarget.y;
+
+                this.prevTarget.x = continueX;
+                this.prevTarget.y = continueY;
+
+                this.motionStack.pop();
+                // this.motionStack.push(direction);
                 
                 console.log("back",this.motionStack);
                 return;
@@ -168,6 +178,9 @@ class PlayerA {
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
 
+                if (this.motionStack.length > 4) {
+                    return;
+                }
                 this.motionStack.push(direction);
                 console.log("same",this.motionStack);
                 return;

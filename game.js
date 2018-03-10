@@ -42,10 +42,6 @@ function panic() {
     console.log("panic");
 }
 
-function update() {
-    board.update(timestep); // delta in board.update
-}
-
 function mainLoop(timestamp) {
     // throttle the frame rate  
     if (timestamp < lastFrameTimeMs + (1000 / maxFPS)) {
@@ -59,13 +55,15 @@ function mainLoop(timestamp) {
 
     var numUpdateSteps = 0;
     while (delta >= timestep) {
-        update();
+        board.update(timestep);
         delta -= timestep;
         if (++numUpdateSteps >= 240) {
             panic();
             break;
         }
     }
+
+    board.draw();
 
     requestAnimationFrame(mainLoop);
 }

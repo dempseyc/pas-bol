@@ -101,15 +101,16 @@ var board = {
     },
 
     update: function(delta) {
-        let draw = function () {
-            board.offsetCells();
-            board.offsetPlayers();
-        }
-        this.Avtr.nudge(delta, draw);
+        this.Avtr.nudge(delta);
         this.teamANPCs.forEach((Anpc) => {
-            Anpc.nudge(delta, draw);
+            Anpc.nudge(delta);
         });
         this.doHitDetection();
+    },
+
+    draw: function() {
+        this.offsetCells();
+        this.offsetPlayers();
     },
 
     
