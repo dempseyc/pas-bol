@@ -100,21 +100,25 @@ var board = {
         });
     },
 
-    // game calls, board update, Avtr move ,offsetcells, offsetplayers, dohitdetection
-
     update: function(delta) {
-        this.Avtr.nudge(delta);
+        let draw = function () {
+            board.offsetCells();
+            board.offsetPlayers();
+        }
+        this.Avtr.nudge(delta, draw);
         this.teamANPCs.forEach((Anpc) => {
-            Anpc.nudge(delta);
+            Anpc.nudge(delta, draw);
         });
+        this.doHitDetection();
     },
 
+    
     avtrMove: function (direction) {
         this.Avtr.addMotion(direction);
         this.updateNeededData();
         this.teamANPCsMove();
     },
-
+    
     teamANPCsMove: function () {
         this.teamANPCs.forEach((Anpc) => {
             Anpc.setVector(this.teamANeededData);
@@ -123,21 +127,16 @@ var board = {
     },
     
     offsetCells: function() {
-
-        // will be a positve or negative integer?
+        
         let X = Math.round((this.Avtr.pos.x-Math.floor(this.Avtr.pos.x))*10);
         let Y = Math.round((this.Avtr.pos.y-Math.floor(this.Avtr.pos.y))*10);
-
+        
         if (X<1) { X = 0; }
         if (Y<1) { Y = 0; }
-
-        // console.log(X,Y);
-
+        
         this.DOMtileContainer.style.transform = `translateX(${(-0.4*X)}rem) translateY(${(-0.4*Y)}rem)`;
-        // console.log("transform");
-    
     },
-
+    
     offsetPlayers: function () {
         this.teamANPCs.forEach((npc) => {
             let relX = npc.pos.x - this.Avtr.pos.x + 4;
@@ -154,7 +153,7 @@ var board = {
     },
 
     doHitDetection: function () {
-
+        
         this.OtherTeam.forEach((Bnpc) => {
             this.teamANPCs.forEach((Anpc) => {
                 if (Math.abs(Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(Anpc.pos.y - Bnpc.pos.y) < 0.8) {

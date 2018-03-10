@@ -37,11 +37,6 @@ var lastFrameTimeMs = 0,
     lastFrameTimeMs = 0,
     timestep = 1000 / 100;
 
-function draw() {
-    board.offsetCells();
-    board.offsetPlayers();
-}
-
 function panic() {
     delta = 0;
     console.log("panic");
@@ -49,7 +44,6 @@ function panic() {
 
 function update() {
     board.update(timestep); // delta in board.update
-    board.doHitDetection();
 }
 
 function mainLoop(timestamp) {
@@ -73,7 +67,6 @@ function mainLoop(timestamp) {
         }
     }
 
-    draw();
     requestAnimationFrame(mainLoop);
 }
 

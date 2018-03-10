@@ -8,7 +8,7 @@ class PlayerA {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = .5;
+        this.speed = .2;
     }
 
     initPos(ZEROorONE) {
@@ -58,14 +58,12 @@ class PlayerA {
     }
 
     // this is a nice function
-    changeTarget() {
+    changeTarget(direction) {
         // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
         this.prevTarget.y = this.targetPos.y;
 
-        let currDirection = this.motionStack[0];
-
-        switch (currDirection) {
+        switch (direction) {
             case "up":
             this.targetPos.y = this.prevTarget.y-1;
             break;
@@ -111,6 +109,8 @@ class PlayerA {
         this.prevTarget.y = continueY;
     }
 
+    // this is the dream version of addmotion
+    // it only changes the fine pos of the player
     nudge (delta) {
 
         if (this.pos.x < this.limits.l) {
@@ -125,66 +125,54 @@ class PlayerA {
             let X = this.targetPos.x-this.prevTarget.x;
             let Y = this.targetPos.y-this.prevTarget.y;
     
-            this.pos.x += (X * this.speed * delta / 100);
-            this.pos.y += (Y * this.speed * delta / 100); 
-    
-            let distanceFromTargetX = Math.abs(this.targetPos.x - this.pos.x);
-            let distanceFromTargetY = Math.abs(this.targetPos.y - this.pos.y);
-            
-            let distance = distanceFromTargetX + distanceFromTargetY;
-
-            if (distance < 0.0001) {
-                this.motionStack.shift();
-                this.prevTarget.x = this.targetPos.x;
-                this.prevTarget.y = this.targetPos.y;
-                this.pos.x = this.targetPos.x;
-                this.pos.y = this.targetPos.y;
-                this.changeTarget();
-            }
+            this.pos.x += X * this.speed * delta / 100;
+            this.pos.y += Y * this.speed * delta / 100;
         }
+        // another function should evaluate when the distance
+        // between it and its target reaches 0ish
+        // and what to do about it
     }
 
+    // this is the dream version of addmotion
+    // it only changes the motionstack
+    // interactivity with the avatar will depend on it, but might need some pops and shifts
+    // lets see
     addMotion (direction) {
 
         // length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
-            this.changeTarget();
-            // console.log("init",this.motionStack);
+            console.log("init",this.motionStack);
         }
         
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
-                if (this.motionStack.length > 1) {
-                    this.motionStack.shift();
-                }
                 this.motionStack.push(direction);
+
                 console.log("orth",this.motionStack);
+                return;
             }
             
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
-                if (this.motionStack.length > 1) {
-                    this.motionStack.shift();
-                }
 
-                this.prevTarget.x = this.targetPos.x;
-                this.prevTarget.y = this.targetPos.y;
-
-                this.motionStack.pop();
+                this.motionStack.shift();
                 this.motionStack.push(direction);
-                this.changeTarget();
+                
+                this.targetPos.x = this.prevTarget.x;
+                this.targetPos.y = this.prevTarget.y;
                 
                 console.log("back",this.motionStack);
+                return;
             }
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
-                if (this.motionStack.length > 1) {
-                    this.motionStack.shift();
-                }
+
                 this.motionStack.push(direction);
                 console.log("same",this.motionStack);
+                return;
             }
+
         }
 
         function isBack(prevMotion,currMotion) {
@@ -228,6 +216,8 @@ class PlayerA {
             }
             return orth;
         }
+
+        return;
 
     } // end addMotion
     

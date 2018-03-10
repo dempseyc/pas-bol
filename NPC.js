@@ -6,18 +6,7 @@ class NPC extends Player {
         this.vector = {x: 0, y: 0};
     }
 
-    // how solidified is this?
-    compareX (Ax,Bx) {
-        let rX = Bx - Ax ;
-
-        if (Math.abs(rX) > 4) {
-            let sign = rX / Math.abs(rX);
-            let b = Bx + 9*sign;
-            rX = b - Ax;
-        }
-        return rX;
-    }
-
+    // this might be more complicated than other fns
     applyVector () {
         // console.log("av called");
 
@@ -31,19 +20,27 @@ class NPC extends Player {
             }
             if (this.vector.x > 0) {
                 motions.push("right");
-            } else if (this.vector.x <0){
+            } else if (this.vector.x < 0){
                 motions.push("left");
             }
         }
 
-        if (motions.length > 1) {
-            this.addMotion(motions.shift());
+        if (motions.length > 0) {
+            var clearD = function () {
+                clearTimeout(delay);
+            };
+            var delay = setTimeout(() => {
+                this.addMotion(motions.shift());
+                clearD();
+            }, 100)
+            console.log
         }
 
     }
 
     setVector (teamANeededData) {
         // console.log("sv called");
+
         // teamANeededData.AvtrTrgt // obj
         // teamANeededData.BteamData // array of objs
 
@@ -92,39 +89,90 @@ class NPC extends Player {
         }
     } // end setVector
 
+    // how solidified is this? pretty solidified
+    //// case 1
+    //       8    7
+    //       0    8
+    //// case 2
+    //       0    1
+    //       8    0
+    //// case 1
+    // 1
+    // -8  -- want 1
+    //// case 2
+    // -1
+    //  8  -- want -1
+
+    vectorX (Ax,Bx) {
+        let rX = Ax - Bx;
+
+        if (Math.abs(rX) > 4) {
+            let sign = rX / Math.abs(rX);
+            let b = Bx + 9*sign;
+            rX = Ax - b;
+            console.log ("did vx");
+        }
+        return rX;
+    }
+
     // each of these should only do setVector
     //////////////////////////////////////////////////
     off1Priorities (data) {
-        // get relpos of avtr
-        let rax = this.compareX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y ;
+        // get vector to avtr
+        // let rax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
+        // let ray = data.AvtrTrgt.y - this.targetPos.y;
 
-        let rdx = 4;
-        let rdy = 9;
-        // get relpos of each defender
-        // if defender is closer, update rdx and rdy
-        data.BteamData.forEach((Npos) => {
-            let rx = this.compareX(Npos.x,this.targetPos.x);
-            if (Math.abs(rx) < Math.abs(rdx)) {
-                rdx = rx;
-            }
-            // but not sure
-            if (Math.abs(Npos.y - this.targetPos.y) < Math.abs(rdy)) {
-                rdy = Npos.y - this.targetPos.y ;
-            }
-        });
+        // let rdx = 4;
+        // let rdy = 9;
 
-        // average them, round them, get vector
+        // // get vector to closest defender;
+        // data.BteamData.forEach((Npos) => {
+        //     let rx = this.vectorX(Npos.x,this.targetPos.x);
+        //     if (Math.abs(rx) < Math.abs(rdx)) {
+        //         rdx = rx;
+        //     }
+        //     if (Math.abs(Npos.y - this.targetPos.y) < Math.abs(rdy)) {
+        //         rdy = Npos.y - this.targetPos.y;
+        //     }
+        // });
 
-        this.vector.x = Math.round((rax+rdx) / 2) ;
-        this.vector.y = Math.round((ray+rdy) / 2) ;
+        // // average them, round them, get vector
+
+        // this.vector.x = Math.round((rax+rdx) / 2) ;
+        // this.vector.y = Math.round((ray+rdy) / 2) ;
 
         console.log("off1P", this.vector.x, this.vector.y);
 
     } // set vector
 
-    off2Priorities () {
-        // console.log("off2P");
+    off2Priorities (data) {
+
+        // sticks closer to avtr
+
+        // let rax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
+        // let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        // let rdx = 4;
+        // let rdy = 9;
+
+        // // get vector to closest defender;
+        // data.BteamData.forEach((Npos) => {
+        //     let rx = this.vectorX(Npos.x,this.targetPos.x);
+        //     if (Math.abs(rx) < Math.abs(rdx)) {
+        //         rdx = rx;
+        //     }
+        //     if (Math.abs(Npos.y - this.targetPos.y) < Math.abs(rdy)) {
+        //         rdy = Npos.y - this.targetPos.y;
+        //     }
+        // });
+
+        // // average them, round them, get vector
+
+        // this.vector.x = Math.round((rax+rax+rdx) / 2) ;
+        // this.vector.y = Math.round((ray+rax+rdy) / 2) ;
+
+        console.log("off2P", this.vector.x, this.vector.y);
+
     }
 
     off3Priorities () {
