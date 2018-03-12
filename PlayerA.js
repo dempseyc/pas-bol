@@ -147,15 +147,16 @@ class PlayerA {
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget(this.motionStack[0]);
-            console.log("init",this.motionStack);
+            // console.log("init",this.motionStack);
         }
         
+        // length is 1 or more
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
                 this.motionStack.push(direction);
-
-                console.log("orth",this.motionStack);
+                this.motionStack.shift();
+                // console.log("orth",this.motionStack);
                 return;
             }
             
@@ -172,7 +173,7 @@ class PlayerA {
                 this.motionStack.pop();
                 // this.motionStack.push(direction);
                 
-                console.log("back",this.motionStack);
+                // console.log("back",this.motionStack);
                 return;
             }
             
@@ -182,7 +183,7 @@ class PlayerA {
                     return;
                 }
                 this.motionStack.push(direction);
-                console.log("same",this.motionStack);
+                // console.log("same",this.motionStack);
                 return;
             }
 

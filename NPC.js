@@ -7,9 +7,6 @@ class NPC extends PlayerA {
         this.motions = [];
     }
 
-    //
-    //
-    // fixed something in this.motions
     applyVector () {
         // console.log("av called");
         let v = Math.abs(this.vector.x) + Math.abs(this.vector.y);
@@ -41,14 +38,12 @@ class NPC extends PlayerA {
 
         for (i=m; i>0; i--) {
             this.addMotion(this.motions.shift());
-            console.log("did v", m, i);
+            // console.log("did v", m, i);
         }
 
     }
 
     setVector (teamANeededData) {
-        // console.log("sv called");
-
         // teamANeededData.AvtrTrgt // obj
         // teamANeededData.BteamData // array of objs
 
@@ -110,10 +105,10 @@ class NPC extends PlayerA {
         return rX;
     }
 
-    // each of these should only do setVector
+    // each of these only does setVector call
     //////////////////////////////////////////////////
     off1Priorities (data) {
-        // get between avtr and his nearest defender
+        // go between avtr and his nearest defender
 
         // get vector to avtr
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
@@ -145,8 +140,6 @@ class NPC extends PlayerA {
         let rdx = this.vectorX(this.targetPos.x,Dx);
         // let rdx = Dx - this.targetPos.x;
         let rdy = Dy - this.targetPos.y;
-
-        console.log(rax, ray, "vs");
         
         // this.vector.x = Math.round( (rax+rdx) / 2);
         this.vector.x = rax; // stay with off0
@@ -157,7 +150,7 @@ class NPC extends PlayerA {
     } // set vector
 
     off2Priorities (data) {
-        //// get between avtr and def2
+        //// go between avtr and def2
 
         // get vector to avtr
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
@@ -170,22 +163,57 @@ class NPC extends PlayerA {
         // get vector from this to def2
         let rdx = this.vectorX(this.targetPos.x,Dx);
         let rdy = Dy - this.targetPos.y;
-
-        // console.log(rax, ray, "vs");
         
         this.vector.x = Math.round( (rax+rdx) / 2);
         this.vector.y = Math.round( (ray+rdy) / 2);
 
-        console.log("off2P", this.vector.x, this.vector.y);
+        // console.log("off2P", this.vector.x, this.vector.y);
 
     }
 
-    off3Priorities () {
-        // console.log("off3P");
+    off3Priorities (data) {
+        // go upfield go to x target
+        
+        // go to x target
+        let xt = 8;
+        this.vector.x = this.vectorX(this.targetPos.x,xt);
+
+        //// go upfield
+        // get y vector to avtr
+        let vAy = (data.AvtrTrgt.y - this.pos.y);
+        if (vAy > 10) {
+            this.vector.y += 1;
+        } else {
+            this.vector.y -= 1;
+        }
+        //// end go upfield
+
+        console.log("off3P", this.vector.x, this.vector.y);
     }
 
-    off4Priorities () {
-        // console.log("off4P");
+    off4Priorities (data) {
+        // go upfield keep x with Off0
+
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        // keep with off0
+        this.vector.x = rax;
+
+        //// go upfield
+        // get y vector to avtr
+        let vAy = (data.AvtrTrgt.y - this.pos.y);
+        if (vAy > 10) {
+            this.vector.y += 1;
+        } else {
+            this.vector.y -= 1;
+        }
+        //// end go upfield
+
+        //// pass defenders
+
+
+        console.log("off4P", this.vector.x, this.vector.y);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
