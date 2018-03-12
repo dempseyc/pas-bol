@@ -17,31 +17,31 @@ class NPC extends PlayerA {
             if ( Math.abs(this.vector.x) > 0 || Math.abs(this.vector.y) > 0 ) {
                 if (this.vector.y > 0) {
                     this.motions.push("down");
+                    this.vector.y--;
                     v--;
                 } else if (this.vector.y < 0) {
                     this.motions.push("up");
+                    this.vector.y++;
                     v--;
                 }
                 if (this.vector.x > 0) {
                     this.motions.push("right");
+                    this.vector.x--;
                     v--;
                 } else if (this.vector.x < 0){
                     this.motions.push("left");
+                    this.vector.x++;
                     v--;
                 }
                 
             }
         }
 
-        if (this.motions.length > 1) {
-            var clearD = function () {
-                clearTimeout(delay);
-            };
-            var delay = setTimeout(() => {
-                this.addMotion(this.motions.shift());
-                clearD();
-            }, 50)
-            console.log("did v");
+        let m = this.motions.length;
+
+        for (i=m; i>0; i--) {
+            this.addMotion(this.motions.shift());
+            console.log("did v", m, i);
         }
 
     }
@@ -128,7 +128,6 @@ class NPC extends PlayerA {
     //////////////////////////////////////////////////
     off1Priorities (data) {
         // get between avtr and his nearest defender
-        // right now, his y vector is always positive, why?????????????????
 
         // get vector to avtr
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
@@ -137,8 +136,8 @@ class NPC extends PlayerA {
         //// get pos of avtrs closest defender
 
         // set maximums for position and distance
-        let Dx = 8;
-        let Dy = 21;
+        let Dx = 100;
+        let Dy = 100;
         let distance = Math.abs(this.vectorX(Dx, data.AvtrTrgt.x)) + Math.abs(Dy - data.AvtrTrgt.y);
         
         // iterate through Defenders , getting closest to avtr
@@ -147,8 +146,8 @@ class NPC extends PlayerA {
             let ADy = Npos.y - data.AvtrTrgt.y;
             let ADdistance = Math.abs(ADx) + Math.abs(ADy);
             if (ADdistance < distance) {
-                Dx = ADx;
-                Dy = ADy;
+                Dx = Npos.x;
+                Dy = Npos.y;
                 distance = ADdistance;
                 // console.log("found closer", Dx, Dy);
             }
@@ -157,27 +156,15 @@ class NPC extends PlayerA {
 
         // get vector from this to avtrs closest defender
 
-        // let rdx = this.targetPos.x - Dx;
-        // let rdy = this.targetPos.y - Dy;
-
-        // let rdx = this.targetPos.x + Dx;
-        // let rdy = this.targetPos.y + Dy;
-
+        let rdx = this.vectorX(this.targetPos.x,Dx);
         // let rdx = Dx - this.targetPos.x;
-        // let rdy = Dy - this.targetPos.y;
+        let rdy = Dy - this.targetPos.y;
 
-        // let rdx = Dx + this.targetPos.x;
-        // let rdy = Dy + this.targetPos.y;
-
-        // average them, round them, get vector
         console.log(rax, ray, "vs");
         
         // this.vector.x = Math.round( (rax+rdx) / 2);
-        // this.vector.y = Math.round( (ray+rdy) / 2);
-
-        /////// for test
-        this.vector.x = rax;
-        this.vector.y = ray;
+        this.vector.x = rax; // stay with off0
+        this.vector.y = Math.round( (ray+rdy) / 2);
         
         // console.log("off1P", this.vector.x, this.vector.y);
 
@@ -186,19 +173,42 @@ class NPC extends PlayerA {
     off2Priorities (data) {
         //// get between avtr and def2
 
-        // // vector to avtr
-        // let rax = this.vectorX(this.targetPos.x, data.AvtrTrgt.x);
-        // let ray = data.AvtrTrgt.y - this.targetPos.y;
+        // get vector to avtr
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
 
+        //// get pos of avtrs closest defender
+
+        // set maximums for position and distance
+        let Dx = 100;
+        let Dy = 100;
+        let distance = Math.abs(this.vectorX(Dx, data.AvtrTrgt.x)) + Math.abs(Dy - data.AvtrTrgt.y);
         
-        // // get vector to closest defender;
-        // let rdx = this.vectorX(this.targetPos.x, data.BteamData[2].x);
-        // let rdy = data.BteamData[2].y - this.targetPos.y;
+        // iterate through Defenders , getting closest to avtr
+        data.BteamData.forEach((Npos) => {
+            let ADx = this.vectorX(Npos.x, data.AvtrTrgt.x);
+            let ADy = Npos.y - data.AvtrTrgt.y;
+            let ADdistance = Math.abs(ADx) + Math.abs(ADy);
+            if (ADdistance < distance) {
+                Dx = Npos.x;
+                Dy = Npos.y;
+                distance = ADdistance;
+                // console.log("found closer", Dx, Dy);
+            }
+        });
+        //// end get pos of avtrs closest def
 
-        // // average them, round them, get vector
+        // get vector from this to avtrs closest defender
 
-        // this.vector.x = Math.round((rax+rdx) / 2) ;
-        // this.vector.y = Math.round((ray+rdy) / 2) ;
+        let rdx = this.vectorX(this.targetPos.x,Dx);
+        // let rdx = Dx - this.targetPos.x;
+        let rdy = Dy - this.targetPos.y;
+
+        console.log(rax, ray, "vs");
+        
+        // this.vector.x = Math.round( (rax+rdx) / 2);
+        this.vector.x = rax; // stay with off0
+        this.vector.y = Math.round( (ray+rdy) / 2);
 
         // console.log("off2P", this.vector.x, this.vector.y);
 
