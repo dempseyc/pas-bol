@@ -97,21 +97,7 @@ class NPC extends PlayerA {
         }
     } // end setVector
 
-    // how solidified is this? pretty solidified
-    //// case 1
-    //       8    7
-    //       0    8
-    //// case 2
-    //       0    1
-    //       8    0
-    //// case 1
-    // 1
-    // -8  -- want 1
-    //// case 2
-    // -1
-    //  8  -- want -1
-
-    // should this be reversing the sign to return a vector?
+    // handle x limit crossings
     vectorX (Ax,Bx) {
         let rX = Bx - Ax;
 
@@ -177,40 +163,20 @@ class NPC extends PlayerA {
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
         let ray = data.AvtrTrgt.y - this.targetPos.y;
 
-        //// get pos of avtrs closest defender
+        //// get pos of def2
+        let Dx = data.BteamData[2].x;
+        let Dy = data.BteamData[2].y;
 
-        // set maximums for position and distance
-        let Dx = 100;
-        let Dy = 100;
-        let distance = Math.abs(this.vectorX(Dx, data.AvtrTrgt.x)) + Math.abs(Dy - data.AvtrTrgt.y);
-        
-        // iterate through Defenders , getting closest to avtr
-        data.BteamData.forEach((Npos) => {
-            let ADx = this.vectorX(Npos.x, data.AvtrTrgt.x);
-            let ADy = Npos.y - data.AvtrTrgt.y;
-            let ADdistance = Math.abs(ADx) + Math.abs(ADy);
-            if (ADdistance < distance) {
-                Dx = Npos.x;
-                Dy = Npos.y;
-                distance = ADdistance;
-                // console.log("found closer", Dx, Dy);
-            }
-        });
-        //// end get pos of avtrs closest def
-
-        // get vector from this to avtrs closest defender
-
+        // get vector from this to def2
         let rdx = this.vectorX(this.targetPos.x,Dx);
-        // let rdx = Dx - this.targetPos.x;
         let rdy = Dy - this.targetPos.y;
 
-        console.log(rax, ray, "vs");
+        // console.log(rax, ray, "vs");
         
-        // this.vector.x = Math.round( (rax+rdx) / 2);
-        this.vector.x = rax; // stay with off0
+        this.vector.x = Math.round( (rax+rdx) / 2);
         this.vector.y = Math.round( (ray+rdy) / 2);
 
-        // console.log("off2P", this.vector.x, this.vector.y);
+        console.log("off2P", this.vector.x, this.vector.y);
 
     }
 

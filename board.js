@@ -112,7 +112,6 @@ var board = {
         this.offsetCells();
         this.offsetPlayers();
     },
-
     
     avtrMove: function (direction) {
         this.Avtr.addMotion(direction);
