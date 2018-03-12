@@ -188,7 +188,7 @@ class NPC extends PlayerA {
         }
         //// end go upfield
 
-        console.log("off3P", this.vector.x, this.vector.y);
+        // console.log("off3P", this.vector.x, this.vector.y);
     }
 
     off4Priorities (data) {
@@ -213,14 +213,14 @@ class NPC extends PlayerA {
         //// pass defenders
 
 
-        console.log("off4P", this.vector.x, this.vector.y);
+        // console.log("off4P", this.vector.x, this.vector.y);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
 
 
-    def0Priorities () {
-        // console.log("def0P");
+    def0Priorities (data) {
+        console.log("def0P", data);
     }
 
     def1Priorities () {
