@@ -9,11 +9,10 @@ var board = {
     Avtr: teamA.roster[0],
 
     teamANPCs: [teamA.roster[1],teamA.roster[2],teamA.roster[3],teamA.roster[4]],
-    teamANeededData: {},
 
     teamBNPCs: teamB.roster,
 
-    teamBNeededData: {},
+    neededData: {},
 
     config: {
         cols: 9,
@@ -95,12 +94,11 @@ var board = {
     },
 
     updateNeededData: function () {
-        this.teamANeededData.AvtrTrgt = this.Avtr.targetPos;
-        this.teamANeededData.BteamData = this.teamBNPCs.map((role) => {
+        this.neededData.AvtrTrgt = this.Avtr.targetPos;
+        this.neededData.BteamData = this.teamBNPCs.map((role) => {
             return {x: role.targetPos.x, y: role.targetPos.y};
         });
-        this.teamBNeededData.AvtrTrgt = this.Avtr.targetPos;
-        this.teamBNeededData.AteamData = this.teamANPCs.map((role) => {
+        this.neededData.AteamData = this.teamANPCs.map((role) => {
             return {x: role.targetPos.x, y: role.targetPos.y};
         });
     },
@@ -109,6 +107,9 @@ var board = {
         this.Avtr.nudge(delta);
         this.teamANPCs.forEach((Anpc) => {
             Anpc.nudge(delta);
+        });
+        this.teamBNPCs.forEach((Bnpc) => {
+            Bnpc.nudge(delta);
         });
         this.doHitDetection();
     },
@@ -121,20 +122,16 @@ var board = {
     avtrMove: function (direction) {
         this.Avtr.addMotion(direction);
         this.updateNeededData();
-        this.teamANPCsMove();
-        this.teamBNPCsMove();
-    },
+        this.NPCsMove();
+        },
     
-    teamANPCsMove: function () {
+    NPCsMove: function () {
         this.teamANPCs.forEach((Anpc) => {
-            Anpc.setVector(this.teamANeededData);
+            Anpc.setVector(this.neededData);
             Anpc.applyVector();
         });
-    },
-
-    teamBNPCsMove: function () {
         this.teamBNPCs.forEach((Bnpc) => {
-            Bnpc.setVector(this.teamBNeededData);
+            Bnpc.setVector(this.neededData);
             Bnpc.applyVector();
         });
     },

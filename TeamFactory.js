@@ -13,7 +13,7 @@ class TeamFactory {
         return this.roles.map((role,i)=>{
             let player = {};
             if (team === 0 && i === 0) {
-                player = new PlayerA(team,role);
+                player = new Player(team,role);
             } else {
                 player = new NPC(team,role);
             }

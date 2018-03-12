@@ -1,4 +1,4 @@
-class NPC extends PlayerA {
+class NPC extends Player {
 
     constructor (team,role) {
         // team is 0 or 1, role is 0-4
@@ -43,9 +43,9 @@ class NPC extends PlayerA {
 
     }
 
-    setVector (teamANeededData) {
-        // teamANeededData.AvtrTrgt // obj
-        // teamANeededData.BteamData // array of objs
+    setVector (neededData) {
+        // neededData.AvtrTrgt // obj
+        // neededData.BteamData // array of objs
 
         switch (this.team) {
             case 0:
@@ -53,16 +53,16 @@ class NPC extends PlayerA {
                     case 0:
                         break;
                     case 1:
-                        this.off1Priorities(teamANeededData);
+                        this.off1Priorities(neededData);
                         break;
                     case 2:
-                        this.off2Priorities(teamANeededData);
+                        this.off2Priorities(neededData);
                         break;
                     case 3:
-                        this.off3Priorities(teamANeededData);
+                        this.off3Priorities(neededData);
                         break;
                     case 4:
-                        this.off4Priorities(teamANeededData);
+                        this.off4Priorities(neededData);
                         break;
                     default:
                         break;
@@ -70,19 +70,19 @@ class NPC extends PlayerA {
             case 1:
                 switch (this.role) {
                     case 0:
-                        this.def0Priorities(teamANeededData);
+                        this.def0Priorities(neededData);
                         break;
                     case 1:
-                        this.def1Priorities(teamANeededData);
+                        this.def1Priorities(neededData);
                         break;
                     case 2:
-                        this.def2Priorities(teamANeededData);
+                        this.def2Priorities(neededData);
                         break;
                     case 3:
-                        this.def3Priorities(teamANeededData);
+                        this.def3Priorities(neededData);
                         break;
                     case 4:
-                        this.def4Priorities(teamANeededData);
+                        this.def4Priorities(neededData);
                         break;
                     default:
                         break;
@@ -220,10 +220,20 @@ class NPC extends PlayerA {
 
 
     def0Priorities (data) {
-        console.log("def0P", data);
+        // go toward avtr
+        this.speed = 0.2;
+
+        // get vector to avtr
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        this.vector.x = rax;
+        this.vector.y = ray;
+
     }
 
     def1Priorities () {
+
         // console.log("def0P");
     }
 
@@ -231,11 +241,24 @@ class NPC extends PlayerA {
         // console.log("def0P");
     }
 
-    def3Priorities () {
-        // console.log("def0P");
+    def3Priorities (data) {
+        // go between Off3 and avatar
+
+        // get vector to avtr
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        let rox = this.vectorX(this.targetPos.x, data.AteamData[2].x);
+        let roy = data.AteamData[2].y = this.targetPos.y;
+
+        this.vector.x = Math.round( (rax+rox) / 2);
+        this.vector.y = Math.round( (ray+roy) / 2);
+
+        console.log("def0P", this.vector.x, this.vector.y);
     }
 
-    def4Priorities () {
+    def4Priorities (data) {
+        // go between Off4 and avatar
         // console.log("def0P");
     }
 

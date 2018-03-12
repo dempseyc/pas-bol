@@ -57,15 +57,12 @@ class Player {
         }
     }
 
-    // this is a nice function
-    changeTarget() {
+    changeTarget(direction) {
         // console.log("ct");
         this.prevTarget.x = this.targetPos.x;
         this.prevTarget.y = this.targetPos.y;
 
-        let currDirection = this.motionStack[0];
-
-        switch (currDirection) {
+        switch (direction) {
             case "up":
             this.targetPos.y = this.prevTarget.y-1;
             break;
@@ -111,7 +108,19 @@ class Player {
         this.prevTarget.y = continueY;
     }
 
-    nudge (delta, draw) {
+    checkDistance () {
+        let xdistance = this.targetPos.x - this.pos.x;
+        let ydistance = this.targetPos.y - this.pos.y;
+        let distance = Math.abs(xdistance + ydistance);
+        if (distance < 0.0001) {
+            this.motionStack.shift();
+            this.pos.x = Math.round(this.pos.x);
+            this.pos.y = Math.round(this.pos.y);
+            this.changeTarget(this.motionStack[0]);
+        }
+    }
+
+    nudge (delta) {
 
         if (this.pos.x < this.limits.l) {
             this.reTranslate("left");
@@ -126,72 +135,58 @@ class Player {
             let Y = this.targetPos.y-this.prevTarget.y;
     
             this.pos.x += X * this.speed * delta / 100;
-            this.pos.y += Y * this.speed * delta / 100; 
-    
-            let distanceFromTargetX = Math.abs(this.targetPos.x - this.pos.x);
-            let distanceFromTargetY = Math.abs(this.targetPos.y - this.pos.y);
-            
-            let distance = distanceFromTargetX * distanceFromTargetY;
-
-            draw();
-
-            if (distance < 0.01) {
-                this.changeTarget();
-            }
+            this.pos.y += Y * this.speed * delta / 100;
         }
+
+        this.checkDistance();
     }
 
     addMotion (direction) {
 
-        if (direction === "stop") {
-            this.prevTarget.x = this.targetPos.x;
-            this.prevTarget.y = this.targetPos.y;
-            this.motionStack = [];
-            return;
-        }
-
         // length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
+            this.changeTarget(this.motionStack[0]);
             // console.log("init",this.motionStack);
         }
         
+        // length is 1 or more
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
-                if (this.motionStack.length > 1) {
-                    this.motionStack.shift();
-                }
                 this.motionStack.push(direction);
-                console.log("orth",this.motionStack);
+                this.motionStack.shift();
+                // console.log("orth",this.motionStack);
+                return;
             }
             
             else if (isBack(this.motionStack[this.motionStack.length-1],direction)) {
-                if (this.motionStack.length > 1) {
-                    this.motionStack.shift();
-                }
+                let continueX = this.targetPos.x;
+                let continueY = this.targetPos.y;
+                
+                this.targetPos.x = this.prevTarget.x;
+                this.targetPos.y = this.prevTarget.y;
 
-                this.prevTarget.x = this.targetPos.x;
-                this.prevTarget.y = this.targetPos.y;
+                this.prevTarget.x = continueX;
+                this.prevTarget.y = continueY;
 
                 this.motionStack.pop();
-                this.motionStack.push(direction);
-                // this.changeTarget();
+                // this.motionStack.push(direction);
                 
-                console.log("back",this.motionStack);
+                // console.log("back",this.motionStack);
+                return;
             }
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
-                if (this.motionStack.length > 2) {
-                    this.motionStack.shift();
+
+                if (this.motionStack.length > 4) {
+                    return;
                 }
                 this.motionStack.push(direction);
-                console.log("same",this.motionStack);
+                // console.log("same",this.motionStack);
+                return;
             }
 
-            else {
-                console.log("error");
-            }
         }
 
         function isBack(prevMotion,currMotion) {
@@ -236,8 +231,8 @@ class Player {
             return orth;
         }
 
-        this.changeTarget();
+        return;
 
     } // end addMotion
     
-}  // end class PlayerA
+}  // end class Player
