@@ -40,7 +40,7 @@ var board = {
         this.Avtr.DOMhandle.style.left = `${(this.Avtr.pos.x*4)}rem`;
         this.Avtr.DOMhandle.style.top = `${(this.Avtr.pos.y*4)}rem`;
         this.Avtr.Dot = document.createElement('div');
-        this.Avtr.Dot.classList = "playerA teamA0";
+        this.Avtr.Dot.classList = "player teamA0";
         this.Avtr.DOMhandle.appendChild(this.Avtr.Dot);
         this.DOMhandle.appendChild(this.Avtr.DOMhandle);
 

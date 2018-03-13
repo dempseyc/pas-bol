@@ -221,7 +221,6 @@ class NPC extends Player {
 
     def0Priorities (data) {
         // go toward avtr
-        this.speed = 0.2;
 
         // get vector to avtr
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
@@ -232,12 +231,87 @@ class NPC extends Player {
 
     }
 
-    def1Priorities () {
+    def1Priorities (data) {
+        // go between avtr and his nearest offenseman
+        this.speed = 0.4;
+
+        // get vector to avtr
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        //// get pos of avtrs closest offender
+
+        // set maximums for position and distance
+        let Ox = 100;
+        let Oy = 100;
+        let distance = Math.abs(this.vectorX(Ox, data.AvtrTrgt.x)) + Math.abs(Oy - data.AvtrTrgt.y);
+        
+        // iterate through Offensemen , getting closest to avtr
+        data.BteamData.forEach((Npos) => {
+            let AOx = this.vectorX(Npos.x, data.AvtrTrgt.x);
+            let AOy = Npos.y - data.AvtrTrgt.y;
+            let ADdistance = Math.abs(AOx) + Math.abs(AOy);
+            if (ADdistance < distance) {
+                Ox = Npos.x;
+                Oy = Npos.y;
+                distance = ADdistance;
+                // console.log("found closer", Dx, Oy);
+            }
+        });
+        //// end get pos of avtrs closest def
+
+        // get vector from this to avtrs closest Offenseman
+
+        let rox = this.vectorX(this.targetPos.x,Ox);
+        // let rdx = Dx - this.targetPos.x;
+        let roy = Oy - this.targetPos.y;
+        
+        // this.vector.x = Math.round( (rax+rdx) / 2);
+        this.vector.x = rax; // stay with off0
+        this.vector.y = Math.round( (ray+roy) / 2);
 
         // console.log("def0P");
     }
 
-    def2Priorities () {
+    def2Priorities (data) {
+        //// go between avtr and off2
+         // go between avtr and his nearest offenseman
+         this.speed = 0.4;
+
+         // get vector to avtr
+         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+         let ray = data.AvtrTrgt.y - this.targetPos.y;
+ 
+         //// get pos of avtrs closest Offenseman
+ 
+         // set maximums for position and distance
+         let Ox = 100;
+         let Oy = 100;
+         let distance = Math.abs(this.vectorX(Ox, data.AvtrTrgt.x)) + Math.abs(Oy - data.AvtrTrgt.y);
+         
+         // iterate through Offensemen, getting closest to avtr
+         data.BteamData.forEach((Npos) => {
+             let AOx = this.vectorX(Npos.x, data.AvtrTrgt.x);
+             let AOy = Npos.y - data.AvtrTrgt.y;
+             let ADdistance = Math.abs(AOx) + Math.abs(AOy);
+             if (ADdistance < distance) {
+                 Ox = Npos.x;
+                 Oy = Npos.y;
+                 distance = ADdistance;
+                 // console.log("found closer", Dx, Oy);
+             }
+         });
+         //// end get pos of avtrs closest Offensman
+ 
+         // get vector from this to avtrs closest Offenseman
+ 
+         let rox = this.vectorX(this.targetPos.x,Ox);
+         // let rdx = Dx - this.targetPos.x;
+         let roy = Oy - this.targetPos.y;
+         
+         // this.vector.x = Math.round( (rax+rdx) / 2);
+         this.vector.x = rax; // stay with off0
+         this.vector.y = Math.round( (ray+roy) / 2);
         // console.log("def0P");
     }
 
@@ -248,8 +322,9 @@ class NPC extends Player {
         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
         let ray = data.AvtrTrgt.y - this.targetPos.y;
 
+        // get vector to off3
         let rox = this.vectorX(this.targetPos.x, data.AteamData[2].x);
-        let roy = data.AteamData[2].y = this.targetPos.y;
+        let roy = data.AteamData[2].y - this.targetPos.y;
 
         this.vector.x = Math.round( (rax+rox) / 2);
         this.vector.y = Math.round( (ray+roy) / 2);
@@ -259,6 +334,19 @@ class NPC extends Player {
 
     def4Priorities (data) {
         // go between Off4 and avatar
+
+        // get vector to avtr
+        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let ray = data.AvtrTrgt.y - this.targetPos.y;
+
+        // get vector to off3
+        let rox = this.vectorX(this.targetPos.x, data.AteamData[3].x);
+        let roy = data.AteamData[2].y - this.targetPos.y;
+
+        this.vector.x = Math.round( (rax+rox) / 2);
+        this.vector.y = Math.round( (ray+roy) / 2);
+
+        console.log("def0P", this.vector.x, this.vector.y);
         // console.log("def0P");
     }
 
