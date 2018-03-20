@@ -1,3 +1,9 @@
+// attribution https://typetr.typenetwork.com
+@font-face {
+    font-family:'BitcountGridSingle';
+    src: url('../BitcountGrid-CircleSquarePlus-Var.ttf');
+}
+
 $myBlack: #111111;
 $cols: 11;
 $rows: 22;
@@ -10,6 +16,40 @@ html {
 body {
     margin: 0;
     background-color: $myBlack;
+}
+
+body div {
+    color: #bbbbbb;
+    font-size: 8rem;
+    font-family: 'BitcountGridSingle';
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
+    animation: explode 1.5s linear infinite;
+}
+@keyframes explode {
+    0%   {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; }
+    50%  {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;}
+    99%  {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 990, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;}
+    100% {
+        font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
+    }
+}
+
+#box {
+    position: fixed; 
+    top: 10vh;
+    width: 100vw;
+    z-index: 10;
+}
+
+#readout {
+    top: 10px;
+    height: 150px; 
+    width: 350px;
+    margin: 0 auto;
+    background-color: #555555;
+    border-radius: 2rem;
+    text-align: center;
+    opacity: 0.9;
 }
 
 #board-container {
