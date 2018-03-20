@@ -12,25 +12,20 @@ class NPC extends Player {
         let v = Math.abs(this.vector.x) + Math.abs(this.vector.y);
         while (v>0) {
             if ( Math.abs(this.vector.x) > 0 || Math.abs(this.vector.y) > 0 ) {
-                if (this.vector.y > 0) {
+                if (this.vector.y < 0) {
                     this.motions.push("down");
-                    this.vector.y--;
                     v--;
-                } else if (this.vector.y < 0) {
+                } else if (this.vector.y > 0) {
                     this.motions.push("up");
-                    this.vector.y++;
                     v--;
                 }
-                if (this.vector.x > 0) {
+                if (this.vector.x < 0) {
                     this.motions.push("right");
-                    this.vector.x--;
                     v--;
-                } else if (this.vector.x < 0){
+                } else if (this.vector.x > 0){
                     this.motions.push("left");
-                    this.vector.x++;
                     v--;
                 }
-                
             }
         }
 
@@ -45,7 +40,7 @@ class NPC extends Player {
 
     setVector (neededData) {
         // neededData.AvtrTrgt // obj
-        // neededData.BteamData // array of objs
+        // neededData.BteamData // arvay of objs
 
         switch (this.team) {
             case 0:
@@ -94,15 +89,14 @@ class NPC extends Player {
 
     // handle x limit crossings
     vectorX (Ax,Bx) {
-        let rX = Bx - Ax;
+        let vX = Ax - Bx;
 
-        if (Math.abs(rX) > 4) {
-            let sign = rX / Math.abs(rX);
-            let a = Ax + 9*sign;
-            // rX = Bx - a;
-            rX = a - Bx;
+        if (Math.abs(vX) > 4) {
+            let sign = vX / Math.abs(vX);
+            let b = Bx - 9*sign;
+            vX = Ax - b;
         }
-        return rX;
+        return vX;
     }
 
     // each of these only does setVector call
@@ -111,8 +105,8 @@ class NPC extends Player {
         // go between avtr and his nearest defender
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y;
 
         //// get pos of avtrs closest defender
 
@@ -139,35 +133,34 @@ class NPC extends Player {
 
         let rdx = this.vectorX(this.targetPos.x,Dx);
         // let rdx = Dx - this.targetPos.x;
-        let rdy = Dy - this.targetPos.y;
+        let rdy = this.targetPos.y - Dy;
         
-        // this.vector.x = Math.round( (rax+rdx) / 2);
-        this.vector.x = rax; // stay with off0
-        this.vector.y = Math.round( (ray+rdy) / 2);
+        this.vector.x = vax; // stay with off0
+        this.vector.y = Math.round( (vay+rdy) / 2);
         
         // console.log("off1P", this.vector.x, this.vector.y);
 
     } // set vector
 
     off2Priorities (data) {
-        //// go between avtr and def2
+        //// go between avtr and def0
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y ;
 
-        //// get pos of def2
-        let Dx = data.BteamData[2].x;
-        let Dy = data.BteamData[2].y;
+        //// get pos of def0
+        let Dx = data.BteamData[0].x;
+        let Dy = data.BteamData[0].y;
 
-        // get vector from this to def2
+        // get vector from this to def0
         let rdx = this.vectorX(this.targetPos.x,Dx);
-        let rdy = Dy - this.targetPos.y;
+        let rdy = this.targetPos.y - Dy;
         
-        this.vector.x = Math.round( (rax+rdx) / 2);
-        this.vector.y = Math.round( (ray+rdy) / 2);
+        this.vector.x = Math.round( (vax+rdx) / 2);
+        this.vector.y = Math.round( (vay+rdy) / 2);
 
-        // console.log("off2P", this.vector.x, this.vector.y);
+        console.log("off2P", this.vector.x, this.vector.y);
 
     }
 
@@ -180,11 +173,12 @@ class NPC extends Player {
 
         //// go upfield
         // get y vector to avtr
-        let vAy = (data.AvtrTrgt.y - this.pos.y);
-        if (vAy > 10) {
-            this.vector.y += 1;
+        let vAy = (this.targetPos.y - data.AvtrTrgt.y);
+        if (vAy > -10) {
+            console.log("success");
+            this.vector.y = -1;
         } else {
-            this.vector.y -= 1;
+            this.vector.y = 1;
         }
         //// end go upfield
 
@@ -194,24 +188,22 @@ class NPC extends Player {
     off4Priorities (data) {
         // go upfield keep x with Off0
 
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
-
         // keep with off0
-        this.vector.x = rax;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        this.vector.x = vax;
 
         //// go upfield
         // get y vector to avtr
-        let vAy = (data.AvtrTrgt.y - this.pos.y);
-        if (vAy > 10) {
-            this.vector.y += 1;
+        let vAy = this.targetPos.y - data.AvtrTrgt.y;
+        if (vAy > -10) {
+            console.log("success");
+            this.vector.y = -1;
         } else {
-            this.vector.y -= 1;
+            this.vector.y = 1;
         }
         //// end go upfield
 
         //// pass defenders
-
 
         // console.log("off4P", this.vector.x, this.vector.y);
     }
@@ -220,24 +212,23 @@ class NPC extends Player {
 
 
     def0Priorities (data) {
-        // go toward avtr
+        // go toward avtr // prolly unwise
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y;
 
-        this.vector.x = rax;
-        this.vector.y = ray;
+        this.vector.x = vax;
+        this.vector.y = vay;
 
     }
 
     def1Priorities (data) {
         // go between avtr and his nearest offenseman
-        this.speed = 0.4;
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y;
 
         //// get pos of avtrs closest offender
 
@@ -259,95 +250,85 @@ class NPC extends Player {
             }
         });
         //// end get pos of avtrs closest def
-
         // get vector from this to avtrs closest Offenseman
-
-        let rox = this.vectorX(this.targetPos.x,Ox);
-        // let rdx = Dx - this.targetPos.x;
-        let roy = Oy - this.targetPos.y;
+        let vox = this.vectorX(this.targetPos.x,Ox);
+        let voy = this.targetPos.y - Oy;
         
-        // this.vector.x = Math.round( (rax+rdx) / 2);
-        this.vector.x = rax; // stay with off0
-        this.vector.y = Math.round( (ray+roy) / 2);
+        this.vector.x = vox;
+        this.vector.y = Math.round( (vay+voy) / 2);
 
-        // console.log("def0P");
+        // console.log("def1P");
     }
 
     def2Priorities (data) {
-        //// go between avtr and off2
-         // go between avtr and his nearest offenseman
-         this.speed = 0.4;
+        // go between avtr and his nearest offenseman
 
-         // get vector to avtr
-         let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-         let ray = data.AvtrTrgt.y - this.targetPos.y;
- 
-         //// get pos of avtrs closest Offenseman
- 
-         // set maximums for position and distance
-         let Ox = 100;
-         let Oy = 100;
-         let distance = Math.abs(this.vectorX(Ox, data.AvtrTrgt.x)) + Math.abs(Oy - data.AvtrTrgt.y);
-         
-         // iterate through Offensemen, getting closest to avtr
-         data.BteamData.forEach((Npos) => {
-             let AOx = this.vectorX(Npos.x, data.AvtrTrgt.x);
-             let AOy = Npos.y - data.AvtrTrgt.y;
-             let ADdistance = Math.abs(AOx) + Math.abs(AOy);
-             if (ADdistance < distance) {
-                 Ox = Npos.x;
-                 Oy = Npos.y;
-                 distance = ADdistance;
-                 // console.log("found closer", Dx, Oy);
-             }
-         });
-         //// end get pos of avtrs closest Offensman
- 
-         // get vector from this to avtrs closest Offenseman
- 
-         let rox = this.vectorX(this.targetPos.x,Ox);
-         // let rdx = Dx - this.targetPos.x;
-         let roy = Oy - this.targetPos.y;
-         
-         // this.vector.x = Math.round( (rax+rdx) / 2);
-         this.vector.x = rax; // stay with off0
-         this.vector.y = Math.round( (ray+roy) / 2);
-        // console.log("def0P");
+        // get vector to avtr
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y;
+
+        //// get pos of avtrs closest offender
+
+        // set maximums for position and distance
+        let Ox = 100;
+        let Oy = 100;
+        let distance = Math.abs(this.vectorX(Ox, data.AvtrTrgt.x)) + Math.abs(Oy - data.AvtrTrgt.y);
+
+        // iterate through Offensemen , getting closest to avtr
+        data.BteamData.forEach((Npos) => {
+            let AOx = this.vectorX(Npos.x, data.AvtrTrgt.x);
+            let AOy = Npos.y - data.AvtrTrgt.y;
+            let ADdistance = Math.abs(AOx) + Math.abs(AOy);
+            if (ADdistance < distance) {
+                Ox = Npos.x;
+                Oy = Npos.y;
+                distance = ADdistance;
+                // console.log("found closer", Dx, Oy);
+            }
+        });
+        //// end get pos of avtrs closest def
+        // get vector from this to avtrs closest Offenseman
+        let vox = this.vectorX(this.targetPos.x,Ox);
+        let voy = this.targetPos.y - Oy;
+
+        this.vector.x = vox;
+        this.vector.y = Math.round( (vay+voy) / 2);
+
+        // console.log("def2P");
     }
 
     def3Priorities (data) {
         // go between Off3 and avatar
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay = this.targetPos.y - data.AvtrTrgt.y;
 
         // get vector to off3
-        let rox = this.vectorX(this.targetPos.x, data.AteamData[2].x);
-        let roy = data.AteamData[2].y - this.targetPos.y;
+        let vox = this.vectorX(this.targetPos.x, data.AteamData[2].x);
+        let voy = this.targetPos.y - data.AteamData[2].y;
 
-        this.vector.x = Math.round( (rax+rox) / 2);
-        this.vector.y = Math.round( (ray+roy) / 2);
+        this.vector.x = Math.round( (vax+vox) / 2);
+        this.vector.y = Math.round( (vay+voy) / 2);
 
-        console.log("def0P", this.vector.x, this.vector.y);
+        // console.log("def3P", this.vector.x, this.vector.y);
     }
 
     def4Priorities (data) {
         // go between Off4 and avatar
 
         // get vector to avtr
-        let rax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let ray = data.AvtrTrgt.y - this.targetPos.y;
+        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
+        let vay =  this.targetPos.y - data.AvtrTrgt.y;
 
-        // get vector to off3
-        let rox = this.vectorX(this.targetPos.x, data.AteamData[3].x);
-        let roy = data.AteamData[2].y - this.targetPos.y;
+        // get vector to off4
+        let vox = this.vectorX(this.targetPos.x, data.AteamData[3].x);
+        let voy = this.targetPos.y - data.AteamData[3].y;
 
-        this.vector.x = Math.round( (rax+rox) / 2);
-        this.vector.y = Math.round( (ray+roy) / 2);
+        this.vector.x = Math.round( (vax+vox) / 2);
+        this.vector.y = Math.round( (vay+voy) / 2);
 
-        console.log("def0P", this.vector.x, this.vector.y);
-        // console.log("def0P");
+        // console.log("def4P", this.vector.x, this.vector.y);
     }
 
 }  // end NPC

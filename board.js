@@ -171,12 +171,35 @@ var board = {
                     Bnpc.hitDetected();
                 }
             });
+            // for teamB teammates
+            this.teamBNPCs.forEach((teammate) => {
+                if (Math.abs(teammate.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(teammate.pos.y - Bnpc.pos.y) < 0.8) {
+                    teammate.hitDetected();
+                    Bnpc.hitDetected();
+                }
+            });
+            //
 
             if (Math.abs(this.Avtr.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Bnpc.pos.y) < 0.8) {
                 this.Avtr.hitDetected();
                 Bnpc.hitDetected();
             }
         });
+        // for teamA teammates
+        this.teamANPCs.forEach((Anpc) => {
+            this.teamANPCs.forEach((teammate) => {
+                if (Math.abs(teammate.pos.x - Anpc.pos.x) < 0.8 && Math.abs(teammate.pos.y - Anpc.pos.y) < 0.8) {
+                    teammate.hitDetected();
+                    Anpc.hitDetected();
+                }
+            });
+
+            if (Math.abs(this.Avtr.pos.x - Anpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Anpc.pos.y) < 0.8) {
+                this.Avtr.hitDetected();
+                Anpc.hitDetected();
+            }
+        });
+        //
     }
 
 }
