@@ -104,6 +104,7 @@ var board = {
     },
 
     update: function(delta) {
+        // this.doHitDetection();
         this.Avtr.nudge(delta);
         this.teamANPCs.forEach((Anpc) => {
             Anpc.nudge(delta);
@@ -111,7 +112,6 @@ var board = {
         this.teamBNPCs.forEach((Bnpc) => {
             Bnpc.nudge(delta);
         });
-        this.doHitDetection();
     },
 
     draw: function() {
@@ -200,7 +200,7 @@ var board = {
             }
         });
         //
-    }
+    } // end do hit detection
 
 }
 
