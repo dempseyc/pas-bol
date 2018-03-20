@@ -124,7 +124,7 @@ class NPC extends Player {
                 Dx = Npos.x;
                 Dy = Npos.y;
                 distance = ADdistance;
-                // console.log("found closer", Dx, Dy);
+                console.log("found closer", Dx, Dy);
             }
         });
         //// end get pos of avtrs closest def
@@ -160,7 +160,7 @@ class NPC extends Player {
         this.vector.x = Math.round( (vax+rdx) / 2);
         this.vector.y = Math.round( (vay+rdy) / 2);
 
-        console.log("off2P", this.vector.x, this.vector.y);
+        // console.log("off2P", this.vector.x, this.vector.y);
 
     }
 
@@ -175,10 +175,9 @@ class NPC extends Player {
         // get y vector to avtr
         let vAy = (this.targetPos.y - data.AvtrTrgt.y);
         if (vAy > -10) {
-            console.log("success");
-            this.vector.y = -1;
+            this.vector.y -= 1;
         } else {
-            this.vector.y = 1;
+            this.vector.y += 1;
         }
         //// end go upfield
 
@@ -197,9 +196,9 @@ class NPC extends Player {
         let vAy = this.targetPos.y - data.AvtrTrgt.y;
         if (vAy > -10) {
             console.log("success");
-            this.vector.y = -1;
+            this.vector.y -= 1;
         } else {
-            this.vector.y = 1;
+            this.vector.y += 1;
         }
         //// end go upfield
 

@@ -8,7 +8,7 @@ class Player {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = .5;
+        this.speed = 0.5;
     }
 
     initPos(ZEROorONE) {
@@ -134,6 +134,9 @@ class Player {
             let X = this.targetPos.x-this.prevTarget.x;
             let Y = this.targetPos.y-this.prevTarget.y;
     
+            // why does speed fuck up the nudge?  you're reffing fine pos in the if
+            // without any rounding or fixing floats..  
+
             this.pos.x += X * this.speed * delta / 100;
             this.pos.y += Y * this.speed * delta / 100;
         }
@@ -143,14 +146,14 @@ class Player {
 
     addMotion (direction) {
 
-        // length is 0
+        // m stack length is 0
         if (this.motionStack.length === 0) {
             this.motionStack.push(direction);
             this.changeTarget(this.motionStack[0]);
             // console.log("init",this.motionStack);
         }
         
-        // length is 1 or more
+        // m stack length is 1 or more
         else {
 
             if (isOrthogonal(this.motionStack[this.motionStack.length-1],direction)) {
@@ -171,7 +174,6 @@ class Player {
                 this.prevTarget.y = continueY;
 
                 this.motionStack.pop();
-                // this.motionStack.push(direction);
                 
                 // console.log("back",this.motionStack);
                 return;
@@ -181,12 +183,12 @@ class Player {
 
                 if (this.motionStack.length > 4) {
                     return;
+                } else {
+                    this.motionStack.push(direction);
+                    // console.log("same",this.motionStack);
+                    return;
                 }
-                this.motionStack.push(direction);
-                // console.log("same",this.motionStack);
-                return;
             }
-
         }
 
         function isBack(prevMotion,currMotion) {
