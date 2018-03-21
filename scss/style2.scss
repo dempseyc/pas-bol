@@ -19,7 +19,7 @@ body {
 }
 
 body div {
-    color: #bbbbbb;
+    color: #dddddd;
     font-size: 8rem;
     font-family: 'BitcountGridSingle';
     font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
@@ -119,8 +119,14 @@ $a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
     height: 3rem;
     border-radius: 50%;
     opacity: 0.9;
+    // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 2rem;
+    line-height: 4rem;
+    text-align: center;
 }
 
+// dopplegangers on left and right
 .dop-left {
     grid-column: 1/2;
     justify-self: center;
@@ -128,6 +134,11 @@ $a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
     height: 3rem;
     border-radius: 50%;
     opacity: 0.9;
+        // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 2rem;
+    line-height: 4rem;
+    text-align: center;
 }
 
 .dop-right {
@@ -137,6 +148,11 @@ $a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
     height: 3rem;
     border-radius: 50%;
     opacity: 0.9;
+    // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 2rem;
+    line-height: 4rem;
+    text-align: center;
 }
 
 
@@ -145,13 +161,13 @@ $teamA-slug: "teamA";
 @for $i from 0 through 4 {
     .#{$teamA-slug}#{$i} {
         background-color: nth($a-player-colors, ($i+1));
+        color: red;
         border-bottom: 4px solid red;
         mix-blend-mode: screen;
     }
 }
 
 $myPurple: #8822ff;
-// what is wrong with line 79????  sass can't build it.
 $myPBlue: #4400ff;
 $myPRed: #aa22aa;
 $myBlue: #2200ff;
@@ -164,6 +180,7 @@ $teamB-slug: "teamB";
 @for $i from 0 through 4 {
     .#{$teamB-slug}#{$i} {
         background-color: nth($b-player-colors, ($i+1));
+        color: white;
         border-bottom: 4px solid white;
         mix-blend-mode: screen;
     }

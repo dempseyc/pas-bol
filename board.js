@@ -34,12 +34,14 @@ var board = {
         this.DOMhandle.appendChild(tileContainer);
         this.DOMtileContainer = this.DOMhandle.querySelectorAll('.tile-container')[0];
 
-        // build the avatar DOMelement registered in board as this.Avtr
+        // build the DOMelement for avatar registered in board as this.Avtr
         this.Avtr.DOMhandle = document.createElement('div');
         this.Avtr.DOMhandle.classList = "player-containerA";
         this.Avtr.DOMhandle.style.left = `${(this.Avtr.pos.x*4)}rem`;
         this.Avtr.DOMhandle.style.top = `${(this.Avtr.pos.y*4)}rem`;
         this.Avtr.Dot = document.createElement('div');
+        this.Avtr.jerseyNum = "00";
+        this.Avtr.Dot.innerHTML = this.Avtr.jerseyNum;
         this.Avtr.Dot.classList = "player teamA0";
         this.Avtr.DOMhandle.appendChild(this.Avtr.Dot);
         this.DOMhandle.appendChild(this.Avtr.DOMhandle);
@@ -54,11 +56,15 @@ var board = {
             npc.DOMhandle.style.left = `${(npc.pos.x*4)}rem`;
             npc.DOMhandle.style.top = `${(npc.pos.y*4)}rem`;
             npc.Dot = document.createElement('div');
+            npc.jerseyNum = `0${i}`;
+            npc.Dot.innerHTML = npc.jerseyNum;
             npc.Dot.classList = `player teamA${i}`;
             npc.DOMhandle.appendChild(npc.Dot);
             // dopplegangers
             npc.DopL = document.createElement('div');
             npc.DopR = document.createElement('div');
+            npc.DopL.innerHTML = npc.jerseyNum;
+            npc.DopR.innerHTML = npc.jerseyNum;
             npc.DopL.classList = `dop-left teamA${i}`;
             npc.DopR.classList = `dop-right teamA${i}`;
             npc.DOMhandle.appendChild(npc.DopL);
@@ -75,11 +81,15 @@ var board = {
             npc.DOMhandle.style.left = `${(npc.pos.x*4)}rem`;
             npc.DOMhandle.style.top = `${(npc.pos.y*4)}rem`;
             npc.Dot = document.createElement('div');
+            npc.jerseyNum = `0${i}`;
+            npc.Dot.innerHTML = npc.jerseyNum;
             npc.Dot.classList = `player teamB${i}`;
             npc.DOMhandle.appendChild(npc.Dot);
             // dopplegangers
             npc.DopL = document.createElement('div');
             npc.DopR = document.createElement('div');
+            npc.DopL.innerHTML = npc.jerseyNum;
+            npc.DopR.innerHTML = npc.jerseyNum;
             npc.DopL.classList = `dop-left teamB${i}`;
             npc.DopR.classList = `dop-right teamB${i}`;
             npc.DOMhandle.appendChild(npc.DopL);

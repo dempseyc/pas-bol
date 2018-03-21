@@ -11,7 +11,7 @@ body {
   background-color: #111111; }
 
 body div {
-  color: #bbbbbb;
+  color: #dddddd;
   font-size: 8rem;
   font-family: 'BitcountGridSingle';
   font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
@@ -93,7 +93,11 @@ body div {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  opacity: 0.9; }
+  opacity: 0.9;
+  font-family: 'Graduate', monospace;
+  font-size: 2rem;
+  line-height: 4rem;
+  text-align: center; }
 
 .dop-left {
   grid-column: 1/2;
@@ -101,7 +105,11 @@ body div {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  opacity: 0.9; }
+  opacity: 0.9;
+  font-family: 'Graduate', monospace;
+  font-size: 2rem;
+  line-height: 4rem;
+  text-align: center; }
 
 .dop-right {
   grid-column: 5/6;
@@ -109,55 +117,69 @@ body div {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  opacity: 0.9; }
+  opacity: 0.9;
+  font-family: 'Graduate', monospace;
+  font-size: 2rem;
+  line-height: 4rem;
+  text-align: center; }
 
 .teamA0 {
   background-color: #ffff00;
+  color: red;
   border-bottom: 4px solid red;
   mix-blend-mode: screen; }
 
 .teamA1 {
   background-color: #ddff00;
+  color: red;
   border-bottom: 4px solid red;
   mix-blend-mode: screen; }
 
 .teamA2 {
   background-color: #ffcc00;
+  color: red;
   border-bottom: 4px solid red;
   mix-blend-mode: screen; }
 
 .teamA3 {
   background-color: #aaff00;
+  color: red;
   border-bottom: 4px solid red;
   mix-blend-mode: screen; }
 
 .teamA4 {
   background-color: #ffaa00;
+  color: red;
   border-bottom: 4px solid red;
   mix-blend-mode: screen; }
 
 .teamB0 {
   background-color: #8822ff;
+  color: white;
   border-bottom: 4px solid white;
   mix-blend-mode: screen; }
 
 .teamB1 {
   background-color: #aa22aa;
+  color: white;
   border-bottom: 4px solid white;
   mix-blend-mode: screen; }
 
 .teamB2 {
   background-color: #4400ff;
+  color: white;
   border-bottom: 4px solid white;
   mix-blend-mode: screen; }
 
 .teamB3 {
   background-color: #dd1199;
+  color: white;
   border-bottom: 4px solid white;
   mix-blend-mode: screen; }
 
 .teamB4 {
   background-color: #2200ff;
+  color: white;
   border-bottom: 4px solid white;
   mix-blend-mode: screen; }
 
