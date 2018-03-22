@@ -1,22 +1,56 @@
-$black: #111F;
+// attribution https://typetr.typenetwork.com
+@font-face {
+    font-family:'BitcountGridSingle';
+    src: url('../BitcountGrid-CircleSquarePlus-Var.ttf');
+}
+
+$myBlack: #111111;
 $cols: 11;
 $rows: 22;
 
 html {
     font-size: 8px;
+    background-color: #000;
 }
 
 body {
-    margin: 0; 
-    background-color: $black; 
+    margin: 0;
+    background-color: $myBlack;
 }
 
-$yellow: #FF0A;
-$yGreen: #DF0A;
-$yOrange: #FC0A;
-$green: #AF0A;
-$orange: #FA0A;
+body div {
+    color: #dddddd;
+    font-size: 8rem;
+    font-family: 'BitcountGridSingle';
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
+    animation: explode 1.5s linear infinite;
+}
+@keyframes explode {
+    0%   {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; }
+    50%  {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;}
+    99%  {font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 990, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;}
+    100% {
+        font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
+    }
+}
 
+#box {
+    position: fixed; 
+    top: 10vh;
+    width: 100vw;
+    z-index: 10;
+}
+
+#readout {
+    top: 10px;
+    height: 150px; 
+    width: 350px;
+    margin: 0 auto;
+    background-color: #555555;
+    border-radius: 2rem;
+    text-align: center;
+    opacity: 0;
+}
 
 #board-container {
     perspective: 30rem;
@@ -30,10 +64,10 @@ $orange: #FA0A;
     width: (9 * 4rem);
     /* 22 row */
     height: (20 * 4rem);
-    background: #000;
+    background: "#000A";
     overflow: hidden;
 
-    transform: rotateX(10deg);
+    // transform: rotateX(10deg);
 }
 
 .tile-container {
@@ -48,37 +82,111 @@ $orange: #FA0A;
     width: 4rem;
     height: 4rem;
     background: url('../images/pas-tile.gif');
+    // background: url('../images/pas-tile-black.gif');
+    
 }
 
-$a-player-colors: $yellow,$yGreen,$yOrange,$green,$orange;
-$b-player-colors: $purple,$pBlue,$pRed,$blue,$red;
+// sass has no problem with these
+$myYellow: #ffff00;
+$myYGreen: #ddff00;
+$myYOrange: #ffcc00;
+$myGreen: #aaff00;
+$myOrange: #ffaa00;
+
+$a-player-colors: $myYellow,$myYGreen,$myYOrange,$myGreen,$myOrange ;
+
+.player-containerA {
+    position: absolute;
+    display: grid;
+    grid-auto-columns: 1fr;
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto;
+}
 
 .player-container {
     position: absolute;
+    display: grid;
+    grid-auto-columns: 4rem 32rem 4rem 32rem 4rem;
     width: 4rem;
     height: 4rem;
+    transform: translateX(-36rem);
 }
 
 .player {
+    position: absolute;
+    grid-column: 3/4;
+    justify-self: center;
     width: 3rem;
-    height: 3rem;
-    margin: auto;
+    height: 2.4rem;
     border-radius: 50%;
+    opacity: 0.9;
+    // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 1.8rem;
+    line-height: 2.9rem;
+    text-align: center;
 }
+
+// dopplegangers on left and right
+.dop-left {
+    grid-column: 1/2;
+    justify-self: center;
+    width: .5;
+    height: 2.4rem;
+    border-radius: 50%;
+    opacity: 0.9;
+        // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 1.8rem;
+    line-height: 2.9rem;
+    text-align: center;
+}
+
+.dop-right {
+    grid-column: 5/6;
+    justify-self: center;
+    width: 3rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    opacity: 0.9;
+    // for jerseyNum
+    font-family: 'Graduate', monospace;
+    font-size: 1.8rem;
+    line-height: 2.9rem;
+    text-align: center;
+}
+
 
 $teamA-slug: "teamA";
 
-@for $i from 1 through 4 {
+@for $i from 0 through 4 {
     .#{$teamA-slug}#{$i} {
-        background: nth($a-player-colors, ($i+1));
+        background-color: nth($a-player-colors, ($i+1));
+        color: red;
+        border-bottom: 6px solid red;
+        border-top: 2px solid red;
+        mix-blend-mode: screen;
     }
 }
+
+$myPurple: #8822ff;
+$myPBlue: #4400ff;
+$myPRed: #aa22aa;
+$myBlue: #2200ff;
+$myRed: #dd1199;
+
+$b-player-colors: $myPurple,$myPRed,$myPBlue,$myRed,$myBlue ;
 
 $teamB-slug: "teamB";
 
 @for $i from 0 through 4 {
     .#{$teamB-slug}#{$i} {
-        background: nth($b-player-colors, ($i));
+        background-color: nth($b-player-colors, ($i+1));
+        color: white;
+        border-top: 2px solid white;
+        border-bottom: 6px solid white;
+        mix-blend-mode: screen;
     }
 }
 
