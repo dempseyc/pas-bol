@@ -134,8 +134,8 @@ class NPC extends Player {
 
         // get vector from this to avtrs closest defender
 
-        let vdx = this.vectorX(this.targetPos.x,Dx);
-        let vdy = this.targetPos.y - Dy;
+        let vdx = this.vectorX(Dx,this.targetPos.x);
+        let vdy = Dy - this.targetPos.y;
         
         this.vector.x = vax; // stay with off0
         this.vector.y = Math.round( (vay+vdy) / 2);
@@ -156,8 +156,8 @@ class NPC extends Player {
         let Dy = data.BteamData[0].y;
 
         // get vector from this to def0
-        let vdx = this.vectorX(this.targetPos.x,Dx);
-        let vdy = this.targetPos.y - Dy;
+        let vdx = this.vectorX(Dx,this.targetPos.x,);
+        let vdy = Dy - this.targetPos.y;
         
         this.vector.x = Math.round( (vax+vdx) / 2);
         this.vector.y = Math.round( (vay+vdy) / 2);
