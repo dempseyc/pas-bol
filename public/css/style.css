@@ -1,9 +1,47 @@
+@font-face {
+  font-family: 'BitcountGridSingle';
+  src: url("../BitcountGrid-CircleSquarePlus-Var.ttf"); }
+
 html {
-  font-size: 8px; }
+  font-size: 8px;
+  background-color: #000; }
 
 body {
   margin: 0;
-  background-color: "#111F"; }
+  background-color: #111111; }
+
+body div {
+  color: #dddddd;
+  font-size: 8rem;
+  font-family: 'BitcountGridSingle';
+  font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400;
+  animation: explode 1.5s linear infinite; }
+
+@keyframes explode {
+  0% {
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; }
+  50% {
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 0, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; }
+  99% {
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 990, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; }
+  100% {
+    font-variation-settings: 'CNCI' 0, 'CNCO' 0, 'LINE' 1000, 'OPEN' 1000, 'RNDI' 1000, 'RNDO' 1000, 'SQRI' 1000, 'SQRO' 1000, 'slnt' 0, 'wght' 400; } }
+
+#box {
+  position: fixed;
+  top: 10vh;
+  width: 100vw;
+  z-index: 10; }
+
+#readout {
+  top: 10px;
+  height: 150px;
+  width: 350px;
+  margin: 0 auto;
+  background-color: #555555;
+  border-radius: 2rem;
+  text-align: center;
+  opacity: 0; }
 
 #board-container {
   perspective: 30rem; }
@@ -16,9 +54,8 @@ body {
   width: 36rem;
   /* 22 row */
   height: 80rem;
-  background: #000;
-  overflow: hidden;
-  transform: rotateX(10deg); }
+  background: "#000A";
+  overflow: hidden; }
 
 .tile-container {
   opacity: 0.8; }
@@ -32,43 +69,43 @@ body {
   height: 4rem;
   background: url("../images/pas-tile.gif"); }
 
+.player-containerAv {
+  position: absolute;
+  display: grid;
+  grid-auto-columns: 1fr;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto; }
+
 .player-container {
   position: absolute;
+  display: grid;
+  grid-auto-columns: 4rem 32rem 4rem 32rem 4rem;
   width: 4rem;
-  height: 4rem; }
+  height: 4rem;
+  transform: translateX(-36rem); }
 
 .player {
-  width: 3rem;
-  height: 3rem;
-  margin: auto;
-  border-radius: 50%; }
+  position: absolute;
+  grid-column: 3/4;
+  justify-self: center;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.9; }
 
-.teamA1 {
-  background: "#DF0A"; }
+.dop-left {
+  grid-column: 1/2;
+  justify-self: center;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.9; }
 
-.teamA2 {
-  background: "#FC0A"; }
-
-.teamA3 {
-  background: "#AF0A"; }
-
-.teamA4 {
-  background: "#FA0A"; }
-
-.teamB0 {
-  background: "#F0FA"; }
-
-.teamB1 {
-  background: "#95FA"; }
-
-.teamB2 {
-  background: "#F4AA"; }
-
-.teamB3 {
-  background: "#47FA"; }
-
-.teamB4 {
-  background: "#F66A"; }
+.dop-right {
+  grid-column: 5/6;
+  justify-self: center;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.9; }
 
 .c-0 {
   left: -4rem; }
@@ -174,3 +211,53 @@ body {
 
 .r-22 {
   top: 88rem; }
+
+.A00 {
+  background-image: url("../images/A00.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.A01 {
+  background-image: url("../images/A01.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.A02 {
+  background-image: url("../images/A02.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.A03 {
+  background-image: url("../images/A03.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.A04 {
+  background-image: url("../images/A04.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.B00 {
+  background-image: url("../images/B00.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.B01 {
+  background-image: url("../images/B01.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.B02 {
+  background-image: url("../images/B02.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.B03 {
+  background-image: url("../images/B03.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
+
+.B04 {
+  background-image: url("../images/B04.png");
+  background-size: 100%;
+  mix-blend-mode: screen; }
