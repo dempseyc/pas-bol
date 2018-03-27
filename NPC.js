@@ -65,26 +65,26 @@ class NPC extends Player {
                     default:
                         break;
                 }
-            // case 1:
-            //     switch (this.role) {
-            //         case 0:
-            //             this.def0Priorities(neededData);
-            //             break;
-            //         case 1:
-            //             this.def1Priorities(neededData);
-            //             break;
-            //         case 2:
-            //             this.def2Priorities(neededData);
-            //             break;
-            //         case 3:
-            //             this.def3Priorities(neededData);
-            //             break;
-            //         case 4:
-            //             this.def4Priorities(neededData);
-            //             break;
-            //         default:
-            //             break;
-            // }
+            case 1:
+                switch (this.role) {
+                    case 0:
+                        this.def0Priorities(neededData);
+                        break;
+                    case 1:
+                        // this.def1Priorities(neededData);
+                        break;
+                    case 2:
+                        // this.def2Priorities(neededData);
+                        break;
+                    case 3:
+                        this.def3Priorities(neededData);
+                        break;
+                    case 4:
+                        this.def4Priorities(neededData);
+                        break;
+                    default:
+                        break;
+            }
             default:
             break;
         }
@@ -215,11 +215,11 @@ class NPC extends Player {
 
 
     def0Priorities (data) {
-        // go toward avtr // prolly unwise
+        // go toward avtr -1y
 
         // get vector to avtr
         let vax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
-        let vay = data.AvtrTrgt.y - this.targetPos.y;
+        let vay = data.AvtrTrgt.y - this.targetPos.y -1;
 
         this.vector.x = vax;
         this.vector.y = vay;
@@ -233,7 +233,7 @@ class NPC extends Player {
         let vax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
         let vay = data.AvtrTrgt.y - this.targetPos.y;
 
-        //// get pos of avtrs closest offender
+        //// get pos of avtrs nearest offenseman
 
         // set maximums for position and distance
         let Ox = 100;
@@ -252,7 +252,7 @@ class NPC extends Player {
                 // console.log("found closer", Dx, Oy);
             }
         });
-        //// end get pos of avtrs closest def
+        //// end get pos of avtrs closest offenseman 
         // get vector from this to avtrs closest Offenseman
         let vox = this.vectorX(Ox,this.targetPos.x);
         let voy = Oy - this.targetPos.y;
@@ -290,11 +290,12 @@ class NPC extends Player {
             }
         });
         //// end get pos of avtrs closest def
-        // get vector from this to avtrs closest Offenseman
-        let vox = this.vectorX(this.targetPos.x,Ox);
-        let voy = this.targetPos.y - Oy;
 
-        this.vector.x = vox;
+        // get vector from this to avtrs closest Offenseman
+        let vox = this.vectorX(Ox, this.targetPos.x);
+        let voy = Oy- this.targetPos.y;
+
+        this.vector.x = Math.round( (vax+vox) / 2);
         this.vector.y = Math.round( (vay+voy) / 2);
 
         // console.log("def2P");
