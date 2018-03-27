@@ -119,6 +119,7 @@ class NPC extends Player {
         let distance = Math.abs(this.vectorX(Dx, data.AvtrTrgt.x)) + Math.abs(Dy - data.AvtrTrgt.y);
         
         // iterate through Defenders , getting closest to avtr
+        // this is a little expensive, why
         data.BteamData.forEach((Npos) => {
             let ADx = this.vectorX(Npos.x, data.AvtrTrgt.x);
             let ADy = Npos.y - data.AvtrTrgt.y;
@@ -127,7 +128,7 @@ class NPC extends Player {
                 Dx = Npos.x;
                 Dy = Npos.y;
                 distance = ADdistance;
-                console.log("found closer", Dx, Dy);
+                // console.log("found closer", Dx, Dy);
             }
         });
         //// end get pos of avtrs closest def
@@ -174,13 +175,14 @@ class NPC extends Player {
         this.vector.x = this.vectorX(xt,this.targetPos.x);
 
         //// go upfield
-        // get y vector to avtr
-        let vAy = (data.AvtrTrgt.y - this.targetPos.y);
-        if (vAy > 10) {
+        // get y vector to avatar
+        let vAy = data.AvtrTrgt.y - this.targetPos.y;
+        if (vAy > 8) {
             this.vector.y += 1;
         } else {
-            this.vector.y += -1;
+            this.vector.y = vAy - 8;
         }
+        // console.log("go upfield", this.vector.y);
         //// end go upfield
 
         // console.log("off3P", this.vector.x, this.vector.y);
@@ -194,14 +196,14 @@ class NPC extends Player {
         this.vector.x = vax;
 
         //// go upfield
-        // get y vector to avtr
+        // get y vector to avatar
         let vAy = data.AvtrTrgt.y - this.targetPos.y;
-        if (vAy > 10) {
-            console.log("success");
+        if (vAy > 8) {
             this.vector.y += 1;
         } else {
-            this.vector.y += -1;
+            this.vector.y = vAy - 8;
         }
+        // console.log("go upfield", this.vector.y);
         //// end go upfield
 
         //// pass defenders
