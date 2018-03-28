@@ -112,6 +112,7 @@ var board = {
         this.teamBNPCs.forEach((Bnpc) => {
             Bnpc.nudge(delta);
         });
+        this.doHitDetection();
     },
 
     draw: function() {
@@ -166,40 +167,42 @@ var board = {
         
         this.teamBNPCs.forEach((Bnpc) => {
             this.teamANPCs.forEach((Anpc) => {
-                if (Math.abs(Anpc.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(Anpc.pos.y - Bnpc.pos.y) < 0.8) {
+                if (Math.abs(Anpc.pos.x - Bnpc.pos.x) < 0.999 && Math.abs(Anpc.pos.y - Bnpc.pos.y) < 0.999) {
                     Anpc.hitDetected();
                     Bnpc.hitDetected();
                 }
             });
-            // for teamB teammates
+            // // for teamB teammates
             this.teamBNPCs.forEach((teammate) => {
-                if (Math.abs(teammate.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(teammate.pos.y - Bnpc.pos.y) < 0.8) {
+                if (Math.abs(teammate.pos.x - Bnpc.pos.x) < 0.999 && Math.abs(teammate.pos.y - Bnpc.pos.y) < 0.999) {
                     teammate.hitDetected();
                     Bnpc.hitDetected();
                 }
             });
-            //
+            // //
 
-            if (Math.abs(this.Avtr.pos.x - Bnpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Bnpc.pos.y) < 0.8) {
+            if (Math.abs(this.Avtr.pos.x - Bnpc.pos.x) < 0.999 && Math.abs(this.Avtr.pos.y - Bnpc.pos.y) < 0.999) {
                 this.Avtr.hitDetected();
                 Bnpc.hitDetected();
             }
         });
-        // for teamA teammates
+
+        // // for teamA teammates
         this.teamANPCs.forEach((Anpc) => {
             this.teamANPCs.forEach((teammate) => {
-                if (Math.abs(teammate.pos.x - Anpc.pos.x) < 0.8 && Math.abs(teammate.pos.y - Anpc.pos.y) < 0.8) {
+                if (Math.abs(teammate.pos.x - Anpc.pos.x) < 0.999 && Math.abs(teammate.pos.y - Anpc.pos.y) < 0.999) {
                     teammate.hitDetected();
                     Anpc.hitDetected();
                 }
             });
 
-            if (Math.abs(this.Avtr.pos.x - Anpc.pos.x) < 0.8 && Math.abs(this.Avtr.pos.y - Anpc.pos.y) < 0.8) {
+            if (Math.abs(this.Avtr.pos.x - Anpc.pos.x) < 0.999 && Math.abs(this.Avtr.pos.y - Anpc.pos.y) < 0.999) {
                 this.Avtr.hitDetected();
                 Anpc.hitDetected();
             }
         });
-        //
+        // //
+        
     } // end do hit detection
 
 }

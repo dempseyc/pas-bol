@@ -91,21 +91,21 @@ body div {
   justify-self: center;
   width: 4rem;
   height: 4rem;
-  opacity: 0.9; }
+  opacity: 0.6; }
 
 .dop-left {
   grid-column: 1/2;
   justify-self: center;
   width: 4rem;
   height: 4rem;
-  opacity: 0.9; }
+  opacity: 0.6; }
 
 .dop-right {
   grid-column: 5/6;
   justify-self: center;
   width: 4rem;
   height: 4rem;
-  opacity: 0.9; }
+  opacity: 0.6; }
 
 .c-0 {
   left: -4rem; }

@@ -8,7 +8,7 @@ class Player {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = 0.5;
+        this.speed = 0.25;
     }
 
     initPos(ZEROorONE) {
@@ -98,6 +98,20 @@ class Player {
     }
 
     hitDetected () {
+
+        // // new algo
+        // let continueX = this.prevTarget.x;
+        // let continueY = this.prevTarget.y;
+
+        // this.prevTarget.x = this.targetPos.x;
+        // this.prevTarget.y = this.targetPos.y;
+
+        // this.targetPos.x = continueX;
+        // this.targetPos.y = continueY;
+
+        // // // what is the difference here?
+
+        // // old algo
         let continueX = this.targetPos.x;
         let continueY = this.targetPos.y;
 
@@ -106,6 +120,7 @@ class Player {
 
         this.prevTarget.x = continueX;
         this.prevTarget.y = continueY;
+
     }
 
     checkDistance () {

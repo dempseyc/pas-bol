@@ -71,10 +71,10 @@ class NPC extends Player {
                         this.def0Priorities(neededData);
                         break;
                     case 1:
-                        // this.def1Priorities(neededData);
+                        this.def1Priorities(neededData);
                         break;
                     case 2:
-                        // this.def2Priorities(neededData);
+                        this.def2Priorities(neededData);
                         break;
                     case 3:
                         this.def3Priorities(neededData);
@@ -198,6 +198,7 @@ class NPC extends Player {
         //// go upfield
         // get y vector to avatar
         let vAy = data.AvtrTrgt.y - this.targetPos.y;
+        
         if (vAy > 8) {
             this.vector.y += 1;
         } else {
@@ -215,14 +216,17 @@ class NPC extends Player {
 
 
     def0Priorities (data) {
-        // go toward avtr -1y
+        // go toward avtr - amountOf y
+        // avatars aim is to go ten yards
+        // def0s ytarget should be between avatar and avatars ten yards
 
         // get vector to avtr
         let vax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
-        let vay = data.AvtrTrgt.y - this.targetPos.y -1;
+        let vay = data.AvtrTrgt.y - this.targetPos.y;
 
+        // // // a place to add randomness or variability
         this.vector.x = vax;
-        this.vector.y = vay;
+        this.vector.y = Math.floor( vay / 2);
 
     }
 
@@ -319,11 +323,11 @@ class NPC extends Player {
     }
 
     def4Priorities (data) {
-        // go between Off4 and avatar
+        // go between Off3 and avatar
 
         // get vector to avtr
-        let vax = this.vectorX(this.targetPos.x,data.AvtrTrgt.x);
-        let vay =  this.targetPos.y - data.AvtrTrgt.y;
+        let vax = this.vectorX(data.AvtrTrgt.x,this.targetPos.x);
+        let vay = data.AvtrTrgt.y - this.targetPos.y;
 
         // get vector to off4
         let vox = this.vectorX(data.AteamData[3].x,this.targetPos.x);
@@ -331,6 +335,9 @@ class NPC extends Player {
 
         this.vector.x = Math.round( (vax+vox) / 2);
         this.vector.y = Math.round( (vay+voy) / 2);
+
+        // this.vector.x = vox;
+        // this.vector.y = voy + 2;
 
         // console.log("def4P", this.vector.x, this.vector.y);
     }
