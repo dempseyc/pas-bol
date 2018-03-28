@@ -8,7 +8,7 @@ class Player {
         this.prevTarget = {x:this.pos.x,y:this.pos.y};
         this.targetPos = {x:this.pos.x,y:this.pos.y};
         this.limits = {l: -0.5, r: 8.5},
-        this.speed = 0.25;
+        this.speed = 0.5;
     }
 
     initPos(ZEROorONE) {
@@ -196,7 +196,8 @@ class Player {
             
             else if (this.motionStack[this.motionStack.length-1] === direction) {
 
-                if (this.motionStack.length > 4) {
+                if (this.motionStack.length > 3) {
+                    this.motionStack.pop();
                     return;
                 } else {
                     this.motionStack.push(direction);
