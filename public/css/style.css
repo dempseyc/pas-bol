@@ -55,7 +55,8 @@ body div {
   /* 22 row */
   height: 80rem;
   background: "#000A";
-  overflow: hidden; }
+  overflow: hidden;
+  transform: rotateX(10deg); }
 
 .tile-container {
   opacity: 0.8; }
